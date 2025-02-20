@@ -1,49 +1,87 @@
-import { useCallback, useMemo } from "react";
-import {
-  Node,
-  NodeProps,
-  getStraightPath,
-  Handle,
-  Position,
-} from "@xyflow/react";
-import { Card } from "@/components/ui/card";
+import { useMemo } from "react";
+import { Node, NodeProps, Handle, Position } from "@xyflow/react";
 
+/**
+ * Represents the props for the LogicGate node.
+ * @typedef {Object} LogicGateProps
+ * @property {number} target - The number of target handles.
+ * @property {number} source - The number of source handles.
+ */
 export type LogicGateProps = Node<
   {
-    input?: number;
-    output?: number;
+    target: number;
+    source: number;
   },
   "logicGate"
 >;
 
+/**
+ * Calculates the spacing between handles based on the container height and the number of handles.
+ * @param {number} containerHeight - The height of the container.
+ * @param {number} handleCount - The number of handles.
+ * @returns {number} - The calculated spacing between handles.
+ */
+const calculateHandleSpacing = (
+  containerHeight: number,
+  handleCount: number
+) => {
+  return containerHeight / (handleCount + 1);
+};
+
+/**
+ * Generates an array of Handle components based on the provided parameters.
+ * @param {number} handleCount - The number of handles to generate.
+ * @param {"target" | "source"} type - The type of handles to generate (target or source).
+ * @param {Position} position - The position of the handles (e.g., Position.Left, Position.Right).
+ * @param {number} containerHeight - The height of the container.
+ * @returns {JSX.Element[]} - An array of Handle components.
+ */
+const generateHandles = (
+  handleCount: number,
+  type: "target" | "source",
+  position: Position,
+  containerHeight: number
+) => {
+  const spacing = calculateHandleSpacing(containerHeight, handleCount);
+
+  return Array.from({ length: handleCount }, (_, index) => {
+    const topPosition = spacing * (index + 1);
+    const id: string = `${type}-${index}`;
+    return (
+      <Handle
+        key={id}
+        id={id}
+        type={type}
+        position={position}
+        style={{ top: topPosition }}
+        isConnectable
+      />
+    );
+  });
+};
+
+/**
+ * LogicGateNode component represents a custom node with target and source handles.
+ * @param {NodeProps<LogicGateProps>} props - The props for the LogicGateNode component.
+ * @returns {JSX.Element} - The rendered LogicGateNode component.
+ */
 export default function LogicGateNode(props: NodeProps<LogicGateProps>) {
   const { data } = props;
-  const { input, output } = data;
+  const { target, source } = data;
 
+  // Calculate the maximum number of handles to determine the container height
   const maxHandles = useMemo(() => {
-    return Math.max(input ?? 0, output ?? 0);
-  }, [input, output]);
+    return Math.max(target ?? 0, source ?? 0);
+  }, [target, source]);
 
+  // Container dimensions based on the maximum number of handles
   const container = useMemo(
     () => ({
-      width: 70 + maxHandles * 10,
-      height: 20 + maxHandles * 10,
+      width: 70 + maxHandles * 10, // Adjust width based on the number of handles
+      height: 20 + maxHandles * 10, // Adjust height based on the number of handles
     }),
     [maxHandles]
   );
-
-  const inputHandleTops = useMemo(() => {
-    return Array.from(
-      { length: input ?? 0 },
-      (_, index) =>
-        container.height / maxHandles / 2 +
-        index * (container.height / maxHandles)
-    );
-  }, [input, maxHandles, container.height]);
-
-  const outputHandleTops = useMemo(() => {
-    return Array.from({ length: output ?? 0 }, (_, index) => 10 + index * 15);
-  }, [output]);
 
   return (
     <div
@@ -51,31 +89,13 @@ export default function LogicGateNode(props: NodeProps<LogicGateProps>) {
         width: container.width,
         height: container.height,
       }}
-      className={`h-[80px] border border-blue-950 rounded-sm bg-blue-600 hover:bg-blue-500 transition-colors duration-300`}
+      className="border border-blue-950 rounded-sm bg-blue-600 hover:bg-blue-500 transition-colors duration-300"
     >
-      {/* Target Handles for Input */}
-      {inputHandleTops.map((top, index) => (
-        <Handle
-          key={`input-${index}`}
-          type="target"
-          position={Position.Left}
-          style={{
-            top: top,
-          }}
-        />
-      ))}
+      {/* Target Handles (Left Side) */}
+      {generateHandles(target, "target", Position.Left, container.height)}
 
-      {/* Target Handles for Output */}
-      {outputHandleTops.map((top, index) => (
-        <Handle
-          key={`output-${index}`}
-          type="source"
-          position={Position.Right}
-          style={{
-            top: top,
-          }}
-        />
-      ))}
+      {/* Source Handles (Right Side) */}
+      {generateHandles(source, "source", Position.Right, container.height)}
     </div>
   );
 }
