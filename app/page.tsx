@@ -56,6 +56,19 @@ const initialNodes: Node[] = [
  * @returns {JSX.Element} - The rendered ReactFlow diagram.
  */
 export default function App() {
+  const mousePosition = useMousePosition();
+  const flowMousePosition = useFlowMousePosition();
+
+  const [isSpacePressed, setIsSpacePressed] = useState(false);
+  const [shiftPressed, setShiftPressed] = useState<boolean>(false);
+
+  // Use the hook to detect Shift key press and release
+  useKeyPress(
+    () => setShiftPressed(true), // Called when Shift is pressed
+    () => setShiftPressed(false), // Called when Shift is released
+    ["ShiftLeft", "ShiftRight"] // Key codes for both Shift keys
+  );
+
   const [nodes, setNodes] = useState<Node[]>(initialNodes);
   const [edges, setEdges] = useState<Edge[]>([]);
 
