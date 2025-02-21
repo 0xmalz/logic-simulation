@@ -37,6 +37,7 @@ const initialNodes: Node[] = [
     data: {
       label: "A",
       variant: "output",
+      state: "on",
     },
   },
 
@@ -47,6 +48,7 @@ const initialNodes: Node[] = [
     data: {
       label: "A",
       variant: "input",
+      state: "off",
     },
   },
 ];

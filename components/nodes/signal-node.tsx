@@ -1,7 +1,9 @@
 import { Label } from "@/components/ui/label";
 import { Handle, Node, NodeProps, Position } from "@xyflow/react";
 import { cva, VariantProps } from "class-variance-authority";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
+import { twMerge } from "tailwind-merge";
+import { Button } from "../ui/button";
 
 /**
  * Represents the props for the Signal node.
@@ -14,21 +16,10 @@ import { useMemo } from "react";
 export type SignalProps = Node<
   {
     label: string;
-  } & VariantProps<typeof signalVariants>,
+    variant: "input" | "output";
+  },
   "signal"
 >;
-
-const signalVariants = cva(
-  "flex justify-center items-center w-[40px] h-[40px] border p-0 m-0 rounded-sm transition-colors duration-300",
-  {
-    variants: {
-      variant: {
-        input: "border-green-950 bg-green-600 hover:bg-green-500",
-        output: "border-red-950 bg-red-600 hover:bg-red-500",
-      },
-    },
-  }
-);
 
 /**
  * SignalNode component that represents a signal node
@@ -44,23 +35,25 @@ export default function SignalNode(props: NodeProps<SignalProps>) {
   const { data } = props;
   const { label, variant } = data;
 
-  // Determine color based on variant
-  const color = useMemo(
-    () => (variant === "input" ? "green" : "red"),
-    [variant]
-  );
+  const [state, setState] = useState<"on" | "off">();
 
   return (
-    <div className={signalVariants({ variant })}>
-      <Label className={`text-lg font-semibold text-${color}-950`}>
-        {label}
-      </Label>
+    <Button
+      onClick={() => setState(state == "on" ? "off" : "on")}
+      className={twMerge(
+        "flex justify-center items-center w-[45px] h-[45px] border p-0 m-0 rounded-sm transition-colors duration-100",
+        state == "on"
+          ? "border-gray-950 bg-gray-600 hover:bg-gray-500"
+          : "border-red-950 bg-red-600 hover:bg-red-500"
+      )}
+    >
+      <Label className={twMerge("text-lg font-semibold")}>{label}</Label>
 
       <Handle
         id={variant}
         type={variant == "input" ? "source" : "target"}
         position={variant == "input" ? Position.Right : Position.Left}
       />
-    </div>
+    </Button>
   );
 }
