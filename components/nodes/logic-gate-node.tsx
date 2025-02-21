@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { Node, NodeProps, Handle, Position } from "@xyflow/react";
 import { Label } from "@/components/ui/label";
+import { Card } from "../ui/card";
 
 /**
  * Represents the props for the LogicGate node.
@@ -66,13 +67,13 @@ export default function LogicGateNode(props: NodeProps<LogicGateProps>) {
   const container = useMemo(
     () => ({
       width: 70 + maxHandles * 10, // Adjust width based on the number of handles
-      height: 20 + maxHandles * 10, // Adjust height based on the number of handles
+      height: 15 + maxHandles * 15, // Adjust height based on the number of handles
     }),
     [maxHandles]
   );
 
   return (
-    <div
+    <Card
       style={{
         width: container.width,
         height: container.height,
@@ -86,6 +87,6 @@ export default function LogicGateNode(props: NodeProps<LogicGateProps>) {
 
       {/* Source Handles (Right Side) */}
       {generateHandles(output, "source", Position.Right, container.height)}
-    </div>
+    </Card>
   );
 }
