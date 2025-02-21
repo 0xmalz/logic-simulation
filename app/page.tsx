@@ -14,6 +14,7 @@ import {
 import "@xyflow/react/dist/style.css";
 
 import LogicGateNode from "./components/nodes/logic-gate-node";
+import SignalNode from "./components/nodes/signal-node";
 
 // Initial nodes for the flow diagram
 const initialNodes = [
@@ -44,7 +45,10 @@ export default function App() {
   const [edges, setEdges] = useState(initialEdges);
 
   // Register custom node types (e.g., logicGate)
-  const nodeTypes = useMemo(() => ({ logicGate: LogicGateNode }), []);
+  const nodeTypes = useMemo(
+    () => ({ logicGate: LogicGateNode, signal: SignalNode }),
+    []
+  );
 
   // Handler for node changes
   const onNodesChange = useCallback(
