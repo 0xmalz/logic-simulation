@@ -20,7 +20,10 @@ export default function SignalNode(props: NodeProps<SignalProps>) {
   const { data } = props;
   const { label, variant } = data;
 
-  const color = useMemo(() => (variant == "input" ? "green" : "red"), []);
+  const color = useMemo(
+    () => (variant === "input" ? "green" : "red"),
+    [variant]
+  );
 
   return (
     <div
