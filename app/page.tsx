@@ -15,6 +15,7 @@ export default function App() {
       <ReactFlowProvider>
         <StatusOverlay />
         <Flow />
+        <ThemeDropDownMenu />
       </ReactFlowProvider>
     </div>
   );
