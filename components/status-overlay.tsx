@@ -6,7 +6,7 @@ import { Label } from "@radix-ui/react-label";
 import useFlowMousePosition from "@/hooks/useFlowMousePosition";
 import useMousePosition from "@/hooks/useMousePosition";
 import { useKeyPress } from "@/hooks/useKeyPress";
-import { twMerge } from "tailwind-merge";
+import { twJoin, twMerge } from "tailwind-merge";
 
 export type StatusOverlayProps = {
   className?: string;
@@ -27,8 +27,8 @@ export default function StatusOverlay({ className }: StatusOverlayProps) {
 
   return (
     <div
-      className={twMerge(
-        "flex flex-col gap-2 text-xs text-white bg-black bg-opacity-20 p-2 z-10",
+      className={twJoin(
+        "flex flex-col max-w-max gap-2 text-xs text-white bg-black bg-opacity-20 p-3 z-10 rounded-sm",
         className
       )}
     >

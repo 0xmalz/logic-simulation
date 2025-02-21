@@ -11,6 +11,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { twMerge } from "tailwind-merge";
 
 export type ThemeDropDownMenuProps = {
   className?: string;
@@ -20,7 +21,7 @@ export function ThemeDropDownMenu({ className }: ThemeDropDownMenuProps) {
   const { setTheme } = useTheme();
 
   return (
-    <div className={className}>
+    <div className={twMerge("z-20", className)}>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="outline" size="icon">
