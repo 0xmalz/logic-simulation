@@ -6,8 +6,13 @@ import { Label } from "@radix-ui/react-label";
 import useFlowMousePosition from "@/hooks/useFlowMousePosition";
 import useMousePosition from "@/hooks/useMousePosition";
 import { useKeyPress } from "@/hooks/useKeyPress";
+import { twMerge } from "tailwind-merge";
 
-export default function StatusOverlay() {
+export type StatusOverlayProps = {
+  className?: string;
+};
+
+export default function StatusOverlay({ className }: StatusOverlayProps) {
   const mousePosition = useMousePosition();
   const flowMousePosition = useFlowMousePosition();
 
@@ -21,7 +26,12 @@ export default function StatusOverlay() {
   );
 
   return (
-    <div className="flex flex-col gap-2 absolute top-0 left-0 text-xs text-white bg-black bg-opacity-20 p-2 z-10">
+    <div
+      className={twMerge(
+        "flex flex-col gap-2 text-xs text-white bg-black bg-opacity-20 p-2 z-10",
+        className
+      )}
+    >
       <Label>
         Mouse Position: ({mousePosition.x}, {mousePosition.y})
       </Label>
