@@ -98,21 +98,41 @@ export default function App() {
     [setEdges]
   );
 
+  // Use the custom hook to listen for the Space key
+  useKeyPress(
+    () => setIsSpacePressed(true), // onKeyDown
+    () => setIsSpacePressed(false), // onKeyUp
+    ["Space"] // Key codes to listen for
+  );
+
   return (
     <div className="w-[100vw] h-[100vh]">
+      <div className="flex flex-col gap-2 absolute top-0 left-0 text-xs text-white bg-black bg-opacity-20 p-2 z-10">
+        <Label>
+          Mouse Position: ({mousePosition.x}, {mousePosition.y})
+        </Label>
+        <Label>
+          Mouse Flow Position: ({flowMousePosition.x}, {flowMousePosition.y})
+        </Label>
+        <Label>Shift Pressed: {shiftPressed ? "true" : "false"}</Label>
+      </div>
+
       <ReactFlow
         colorMode="dark"
         nodes={nodes}
-        onNodesChange={onNodesChange}
         edges={edges}
+        onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
+        selectionKeyCode={null}
+        selectionOnDrag
+        panOnDrag={isSpacePressed}
         onConnect={onConnect}
         nodeTypes={nodeTypes} // Pass custom node types
         snapToGrid
-        snapGrid={[10, 10]} // Grid size for snapping
+        snapGrid={[1, 1]} // Grid size for snapping
         fitView // Automatically fit the diagram to the viewport
       >
-        <Background /> {/* Grid background */}
+        <Background gap={15} /> {/* Grid background */}
         <Controls /> {/* Zoom and pan controls */}
       </ReactFlow>
     </div>
