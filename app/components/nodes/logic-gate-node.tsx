@@ -16,19 +16,6 @@ export type LogicGateProps = Node<
 >;
 
 /**
- * Calculates the spacing between handles based on the container height and the number of handles.
- * @param {number} containerHeight - The height of the container.
- * @param {number} handleCount - The number of handles.
- * @returns {number} - The calculated spacing between handles.
- */
-const calculateHandleSpacing = (
-  containerHeight: number,
-  handleCount: number
-) => {
-  return containerHeight / (handleCount + 1);
-};
-
-/**
  * Generates an array of Handle components based on the provided parameters.
  * @param {number} handleCount - The number of handles to generate.
  * @param {"target" | "source"} type - The type of handles to generate (target or source).
@@ -42,7 +29,7 @@ const generateHandles = (
   position: Position,
   containerHeight: number
 ) => {
-  const spacing = calculateHandleSpacing(containerHeight, handleCount);
+  const spacing = containerHeight / (handleCount + 1);
 
   return Array.from({ length: handleCount }, (_, index) => {
     const topPosition = spacing * (index + 1);
