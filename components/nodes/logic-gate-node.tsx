@@ -80,7 +80,7 @@ export default function LogicGateNode(props: NodeProps<LogicGateProps>) {
       }}
       className="flex justify-center items-center border border-blue-950 rounded-sm bg-blue-600 hover:bg-blue-500 transition-colors duration-300"
     >
-      <Label className="text-lg font-semibold">{label}</Label>
+      <Label className="text-lg font-semibold text-white">{label}</Label>
 
       {/* Target Handles (Left Side) */}
       {generateHandles(input, "target", Position.Left, container.height)}

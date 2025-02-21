@@ -1,23 +1,26 @@
 "use client";
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Label } from "@radix-ui/react-label";
 
 import useFlowMousePosition from "@/hooks/useFlowMousePosition";
 import useMousePosition from "@/hooks/useMousePosition";
 import { useKeyPress } from "@/hooks/useKeyPress";
 import { twJoin, twMerge } from "tailwind-merge";
+import { ThemeProvider } from "./theme-provider";
+import { useTheme } from "next-themes";
 
 export type StatusOverlayProps = {
   className?: string;
 };
 
 export default function StatusOverlay({ className }: StatusOverlayProps) {
+  const { theme } = useTheme();
+
   const mousePosition = useMousePosition();
   const flowMousePosition = useFlowMousePosition();
 
   const [shiftPressed, setShiftPressed] = useState<boolean>(false);
-
   // Use the hook to detect Shift key press and release
   useKeyPress(
     () => setShiftPressed(true), // Called when Shift is pressed
@@ -28,7 +31,7 @@ export default function StatusOverlay({ className }: StatusOverlayProps) {
   return (
     <div
       className={twJoin(
-        "flex flex-col max-w-max gap-2 text-xs text-white bg-black bg-opacity-20 p-3 z-10 rounded-sm",
+        "flex flex-col max-w-max gap-2 text-xs p-3 z-10 rounded-sm transition-colors shadow-lg bg-clip-padding backdrop-filter backdrop-blur-xl bg-popover/50  border text-foreground",
         className
       )}
     >

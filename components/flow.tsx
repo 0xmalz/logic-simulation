@@ -5,6 +5,7 @@ import {
   applyEdgeChanges,
   applyNodeChanges,
   Background,
+  ColorMode,
   Connection,
   Controls,
   Edge,
@@ -21,6 +22,7 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from "./ui/context-menu";
+import { useTheme } from "next-themes";
 
 // Initial nodes for the flow diagram
 const initialNodes: Node[] = [
@@ -57,6 +59,13 @@ const initialNodes: Node[] = [
   },
 ];
 
+function getColorMode(theme: string | undefined): ColorMode {
+  if (theme === "light" || theme === "dark") {
+    return theme; // Return valid ColorModeClass
+  }
+  return "system"; // Default to 'system'
+}
+
 /**
  * Flow component that renders a React Flow diagram with customizable nodes and edges.
  *
@@ -67,6 +76,7 @@ const initialNodes: Node[] = [
  * @returns {JSX.Element} The rendered Flow component with a context menu for additional actions.
  */
 export default function Flow() {
+  const { theme } = useTheme();
   const [isSpacePressed, setIsSpacePressed] = useState(false);
 
   const [nodes, setNodes] = useState<Node[]>(initialNodes);
@@ -107,7 +117,7 @@ export default function Flow() {
     <ContextMenu>
       <ContextMenuTrigger asChild>
         <ReactFlow
-          colorMode="dark"
+          colorMode={getColorMode(theme)}
           nodes={nodes}
           edges={edges}
           onNodesChange={onNodesChange}

@@ -47,7 +47,7 @@ export default function SignalNode(props: NodeProps<SignalProps>) {
           : "border-red-950 bg-red-600 hover:bg-red-500"
       )}
     >
-      <Label className={twMerge("text-lg font-semibold")}>{label}</Label>
+      <Label className={"text-lg font-semibold text-white"}>{label}</Label>
 
       <Handle
         id={variant}

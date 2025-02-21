@@ -4,7 +4,7 @@
 
 body {
   font-family: Arial, Helvetica, sans-serif;
-  background: black;
+  background: #faf9f6;
 }
 
 @layer base {
@@ -63,12 +63,19 @@ body {
   }
 }
 
-.dark .react-flow__handle {
+.react-flow__handle {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: rgb(22, 22, 22);
-  border-color: rgb(49, 49, 49);
+}
+
+.dark .react-flow__handle {
+  border-color: rgb(49, 49, 49) !important;
+}
+
+.light .react-flow__handle {
+  background: rgb(226, 226, 226) !important;
+  border-color: rgb(97, 97, 97) !important;
 }
 
 @layer base {

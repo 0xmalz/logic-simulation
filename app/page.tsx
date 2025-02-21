@@ -15,7 +15,6 @@ export default function App() {
     <div className="w-[100vw] h-[100vh]">
       <ReactFlowProvider>
         <StatusOverlay className="absolute top-3 left-3" />
-
         <Flow />
         <ThemeDropDownMenu className="absolute top-3 right-3 z-10" />
       </ReactFlowProvider>
