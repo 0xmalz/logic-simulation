@@ -30,10 +30,21 @@ const signalVariants = cva(
   }
 );
 
+/**
+ * SignalNode component that represents a signal node
+ * - **Input:** Represents a signal that can be turned on or off.
+ * - **Output:** Represents a node that receives a signal.
+ *
+ * @param {NodeProps<SignalProps>} props - The props for the SignalNode component.
+ * @param {string} props.data.label - The label to be displayed for the signal node.
+ * @param {"input" | "output"} props.data.variant - The variant of the signal node, determining its color and connection type.
+ * @returns {JSX.Element} The rendered SignalNode component.
+ */
 export default function SignalNode(props: NodeProps<SignalProps>) {
   const { data } = props;
   const { label, variant } = data;
 
+  // Determine color based on variant
   const color = useMemo(
     () => (variant === "input" ? "green" : "red"),
     [variant]

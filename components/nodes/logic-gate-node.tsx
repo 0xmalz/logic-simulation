@@ -49,7 +49,7 @@ const generateHandles = (
 };
 
 /**
- * LogicGateNode component represents a custom node with target and source handles.
+ * LogicGateNode component represents a custom node with input and output handles.
  * @param {NodeProps<LogicGateProps>} props - The props for the LogicGateNode component.
  * @returns {JSX.Element} - The rendered LogicGateNode component.
  */
