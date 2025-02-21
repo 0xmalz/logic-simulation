@@ -1,20 +1,34 @@
 import { Label } from "@/components/ui/label";
-import { Handle, Node, NodeProps, Position, useStore } from "@xyflow/react";
+import { Handle, Node, NodeProps, Position } from "@xyflow/react";
+import { cva, VariantProps } from "class-variance-authority";
 import { useMemo } from "react";
 
 /**
- * Represents the props for the LogicGate node.
- * @typedef {Object} LogicGateProps
- * @property {number} target - The number of target handles.
- * @property {number} source - The number of source handles.
+ * Represents the props for the Signal node.
+ * Extends the Node type with additional properties and variant styles.
+ *
+ * @typedef {Object} SignalProps
+ * @property {string} label - The label for the signal node.
+ * @property {VariantProps<typeof signalVariants>} variantProps - The variant properties for styling the signal node.
  */
 export type SignalProps = Node<
   {
     label: string;
-    variant: "input" | "output";
-  },
+  } & VariantProps<typeof signalVariants>,
   "signal"
 >;
+
+const signalVariants = cva(
+  "flex justify-center items-center w-[40px] h-[40px] border p-0 m-0 rounded-sm transition-colors duration-300",
+  {
+    variants: {
+      variant: {
+        input: "border-green-950 bg-green-600 hover:bg-green-500",
+        output: "border-red-950 bg-red-600 hover:bg-red-500",
+      },
+    },
+  }
+);
 
 export default function SignalNode(props: NodeProps<SignalProps>) {
   const { data } = props;
@@ -26,9 +40,7 @@ export default function SignalNode(props: NodeProps<SignalProps>) {
   );
 
   return (
-    <div
-      className={`flex justify-center items-center w-[40px] h-[40px] border border-blue-950 p-0 m-0 rounded-sm transition-colors duration-300 bg-${color}-600 hover:bg-${color}-500`}
-    >
+    <div className={signalVariants({ variant })}>
       <Label className={`text-lg font-semibold text-${color}-950`}>
         {label}
       </Label>
