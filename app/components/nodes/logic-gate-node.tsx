@@ -41,7 +41,6 @@ const generateHandles = (
         type={type}
         position={position}
         style={{ top: topPosition }}
-        isConnectable
       />
     );
   });
