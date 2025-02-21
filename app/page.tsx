@@ -22,8 +22,8 @@ const initialNodes = [
     type: "logicGate",
     position: { x: 0, y: 0 },
     data: {
-      target: 10, // Number of target handles
-      source: 1, // Number of source handles
+      input: 5, // Number of input handles
+      output: 2, // Number of output handles
     },
     text: "Title",
   },

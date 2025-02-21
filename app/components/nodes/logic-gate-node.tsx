@@ -4,13 +4,13 @@ import { Node, NodeProps, Handle, Position } from "@xyflow/react";
 /**
  * Represents the props for the LogicGate node.
  * @typedef {Object} LogicGateProps
- * @property {number} target - The number of target handles.
- * @property {number} source - The number of source handles.
+ * @property {number} input - The number of target handles.
+ * @property {number} output - The number of source handles.
  */
 export type LogicGateProps = Node<
   {
-    target: number;
-    source: number;
+    input: number;
+    output: number;
   },
   "logicGate"
 >;
@@ -53,12 +53,12 @@ const generateHandles = (
  */
 export default function LogicGateNode(props: NodeProps<LogicGateProps>) {
   const { data } = props;
-  const { target, source } = data;
+  const { input, output } = data;
 
   // Calculate the maximum number of handles to determine the container height
   const maxHandles = useMemo(() => {
-    return Math.max(target ?? 0, source ?? 0);
-  }, [target, source]);
+    return Math.max(input ?? 0, output ?? 0);
+  }, [input, output]);
 
   // Container dimensions based on the maximum number of handles
   const container = useMemo(
@@ -78,10 +78,10 @@ export default function LogicGateNode(props: NodeProps<LogicGateProps>) {
       className="border border-blue-950 rounded-sm bg-blue-600 hover:bg-blue-500 transition-colors duration-300"
     >
       {/* Target Handles (Left Side) */}
-      {generateHandles(target, "target", Position.Left, container.height)}
+      {generateHandles(input, "target", Position.Left, container.height)}
 
       {/* Source Handles (Right Side) */}
-      {generateHandles(source, "source", Position.Right, container.height)}
+      {generateHandles(output, "source", Position.Right, container.height)}
     </div>
   );
 }
