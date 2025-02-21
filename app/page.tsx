@@ -25,17 +25,30 @@ const initialNodes: Node[] = [
     type: "logicGate",
     position: { x: 0, y: 0 },
     data: {
+      label: "AND", // Gate label
       input: 5, // Number of input handles
       output: 2, // Number of output handles
     },
-    text: "Title",
   },
-];
+  {
+    id: "node-2",
+    type: "signal",
+    position: { x: 100, y: 100 },
+    data: {
+      label: "A",
+      variant: "output",
+    },
+  },
 
-// Initial edgesfor the flow diagram
-const initialEdges = [
-  { id: "edge-1", source: "node-1", sourceHandle: "a", target: "node-2" },
-  { id: "edge-2", source: "node-1", sourceHandle: "b", target: "node-3" },
+  {
+    id: "node-3",
+    type: "signal",
+    position: { x: 100, y: 100 },
+    data: {
+      label: "A",
+      variant: "input",
+    },
+  },
 ];
 
 /**

@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { Node, NodeProps, Handle, Position } from "@xyflow/react";
+import { Label } from "@/components/ui/label";
 
 /**
  * Represents the props for the LogicGate node.
@@ -9,6 +10,7 @@ import { Node, NodeProps, Handle, Position } from "@xyflow/react";
  */
 export type LogicGateProps = Node<
   {
+    label: string;
     input: number;
     output: number;
   },
@@ -53,7 +55,7 @@ const generateHandles = (
  */
 export default function LogicGateNode(props: NodeProps<LogicGateProps>) {
   const { data } = props;
-  const { input, output } = data;
+  const { label, input, output } = data;
 
   // Calculate the maximum number of handles to determine the container height
   const maxHandles = useMemo(() => {
@@ -75,8 +77,10 @@ export default function LogicGateNode(props: NodeProps<LogicGateProps>) {
         width: container.width,
         height: container.height,
       }}
-      className="border border-blue-950 rounded-sm bg-blue-600 hover:bg-blue-500 transition-colors duration-300"
+      className="flex justify-center items-center border border-blue-950 rounded-sm bg-blue-600 hover:bg-blue-500 transition-colors duration-300"
     >
+      <Label className="text-lg font-semibold">{label}</Label>
+
       {/* Target Handles (Left Side) */}
       {generateHandles(input, "target", Position.Left, container.height)}
 
