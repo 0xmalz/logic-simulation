@@ -31,6 +31,9 @@ export type FlowState = {
   addNodes: (nodes: Node | Node[]) => void;
   addEdges: (edges: Edge | Edge[]) => void;
 
+  removeNodes: (nodes: Node | Node[]) => void;
+  removeEdges: (edges: Edge | Edge[]) => void;
+
   onNodesChange: OnNodesChange<Node>;
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
@@ -62,6 +65,22 @@ export const useFlowStore = create<FlowState>((set, get) => ({
     set((state) => ({
       edges: [...state.edges, ...(Array.isArray(edge) ? edge : [edge])],
     })),
+
+  removeNodes: (nodes) =>
+    set((state) => {
+      const idsToRemove = new Set(
+        (Array.isArray(nodes) ? nodes : [nodes]).map((node) => node.id)
+      );
+      return { nodes: state.nodes.filter((node) => !idsToRemove.has(node.id)) };
+    }),
+
+  removeEdges: (edges) =>
+    set((state) => {
+      const idsToRemove = new Set(
+        (Array.isArray(edges) ? edges : [edges]).map((edge) => edge.id)
+      );
+      return { edges: state.edges.filter((edge) => !idsToRemove.has(edge.id)) };
+    }),
 
   onNodesChange: (changes) => {
     set({ nodes: applyNodeChanges(changes, get().nodes) });
@@ -99,6 +118,9 @@ export const useFlowSelector = () =>
 
       addNodes: state.addNodes,
       addEdges: state.addEdges,
+
+      removeNodes: state.removeNodes,
+      removeEdges: state.removeEdges,
 
       selectedNodes: state.selectedNodes,
       selectedEdges: state.selectedEdges,

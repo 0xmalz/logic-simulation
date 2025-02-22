@@ -25,6 +25,8 @@ export default function ContextMenuWrapper({
   const {
     addNodes,
     addEdges,
+    removeNodes,
+    removeEdges,
     selectedNodes,
     selectedEdges,
     setNodeClipboard,
@@ -99,16 +101,20 @@ export default function ContextMenuWrapper({
     });
   }
 
-  function handleCopyClipboard() {
-    console.log("Copy:");
-    console.log(selectedNodes);
+  function handleCut() {
+    setNodeClipboard(selectedNodes);
+    setEdgeClipboard(selectedEdges);
+
+    removeNodes(selectedNodes);
+    removeEdges(selectedEdges);
+  }
+
+  function handleCopy() {
     setNodeClipboard(selectedNodes);
     setEdgeClipboard(selectedEdges);
   }
 
-  function handlePasteClipboard() {
-    console.log("Paste:");
-
+  function handlePaste() {
     const idMap: Record<string, string> = {};
 
     const [left, right, top, bottom] = [
@@ -146,6 +152,11 @@ export default function ContextMenuWrapper({
 
     addNodes(newNodes);
     addEdges(newEdges);
+  }
+
+  function handleDelete() {
+    removeNodes(selectedNodes);
+    removeEdges(selectedEdges);
   }
 
   return (
@@ -216,6 +227,19 @@ export default function ContextMenuWrapper({
         <ContextMenuItem>
           Redo
           <ContextMenuShortcut>⇧⌘Z</ContextMenuShortcut>
+        </ContextMenuItem>
+
+        {/* Separator */}
+        <ContextMenuSeparator />
+
+        {/* Delete */}
+        <ContextMenuItem
+          onClick={() => handleDelete()}
+          className="text-red-500"
+        >
+          <Trash2 className="mr-2 h-4 w-4" /> {/* Icon */}
+          Delete
+          <ContextMenuShortcut>⌘D</ContextMenuShortcut>
         </ContextMenuItem>
       </ContextMenuContent>
     </ContextMenu>
