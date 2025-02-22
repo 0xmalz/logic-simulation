@@ -14,6 +14,8 @@ import { useFlowSelector } from "@/lib/store/flow-state";
 import useFlowMousePosition from "@/hooks/useFlowMousePosition";
 import { Edge, Node } from "@xyflow/react";
 import { GenerateId } from "@/util/generate-id";
+import { SignalVariant } from "./nodes/signal-node";
+import { Trash2 } from "lucide-react";
 
 export default function ContextMenuWrapper({
   children,
@@ -83,10 +85,15 @@ export default function ContextMenuWrapper({
       });
     }
   }
+
+  function handleNewSignal(variant: SignalVariant) {
     addNodes({
       id: GenerateId(),
-      type: "logicGate",
-      data: { label: "And", input: 2, output: 1 },
+      type: "signal",
+      data: {
+        label: "A",
+        variant: variant,
+      },
       position: { x: x, y: y },
       origin: [0.5, 0.5],
     });
@@ -147,7 +154,21 @@ export default function ContextMenuWrapper({
       <ContextMenuTrigger asChild>{children}</ContextMenuTrigger>
 
       {/* Context menu content */}
-      <ContextMenuContent>
+      <ContextMenuContent className="w-[200px]">
+        {/* Submenu for "New Signal" */}
+        <ContextMenuSub>
+          <ContextMenuSubTrigger>New Signal</ContextMenuSubTrigger>
+          <ContextMenuSubContent>
+            <ContextMenuItem onClick={() => handleNewSignal("input")}>
+              Input
+            </ContextMenuItem>
+
+            <ContextMenuItem onClick={() => handleNewSignal("output")}>
+              Output
+            </ContextMenuItem>
+          </ContextMenuSubContent>
+        </ContextMenuSub>
+
         {/* Submenu for "New Gate" */}
         <ContextMenuSub>
           <ContextMenuSubTrigger>New Gate</ContextMenuSubTrigger>
