@@ -1,10 +1,10 @@
 "use client";
 import React from "react";
 import "@xyflow/react/dist/style.css";
-import Flow from "@/components/flow";
 import { ReactFlowProvider } from "@xyflow/react";
-import { ThemeDropDownMenu } from "@/components/theme-dropdown-menu";
-import StatusOverlay from "@/components/status-overlay";
+import { ThemeDropDownMenu } from "@/components/ThemeDropDownMenu";
+import StatusOverlay from "@/components/StatusOverlay";
+import Flow from "@/components/flow";
 
 /**
  * Main App component

@@ -1,8 +1,8 @@
-import { Label } from "@/components/ui/label";
+import { Label } from "@/components/ui/Label";
 import { Handle, Node, NodeProps, Position } from "@xyflow/react";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
-import { Button } from "../ui/button";
+import { Button } from "../ui/Button";
 
 export type SignalVariant = "input" | "output";
 export type SignalState = "on" | "off";

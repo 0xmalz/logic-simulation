@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { Node, NodeProps, Handle, Position } from "@xyflow/react";
-import { Label } from "@/components/ui/label";
-import { Card } from "../ui/card";
+import { Label } from "@/components/ui/Label";
+import { Card } from "../ui/Card";
 import { cva, VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 

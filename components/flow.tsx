@@ -10,11 +10,11 @@ import {
 } from "@xyflow/react";
 import { useKeyPress } from "@/hooks/useKeyPress";
 
-import ContextMenuWrapper from "./context-menu-wrapper";
+import ContextMenuWrapper from "./ContextMenuWrapper";
 import { useFlowSelector } from "@/lib/store/flow-state";
 import { useCallback, useState } from "react";
-import LogicGateNode from "./nodes/logic-gate-node";
-import SignalNode from "./nodes/signal-node";
+import LogicGateNode from "./nodes/LogicGateNode";
+import SignalNode from "./nodes/SignalNode";
 
 /**
  * Flow component that renders a React Flow diagram with customizable nodes and edges.

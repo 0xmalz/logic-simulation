@@ -7,7 +7,7 @@ import useFlowMousePosition from "@/hooks/useFlowMousePosition";
 import useMousePosition from "@/hooks/useMousePosition";
 import { useKeyPress } from "@/hooks/useKeyPress";
 import { twJoin, twMerge } from "tailwind-merge";
-import { ThemeProvider } from "./theme-provider";
+import { ThemeProvider } from "./ThemeProvier";
 import { useTheme } from "next-themes";
 
 export type StatusOverlayProps = {

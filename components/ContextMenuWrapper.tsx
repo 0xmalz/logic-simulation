@@ -9,12 +9,12 @@ import {
   ContextMenuSubTrigger,
   ContextMenuSubContent,
   ContextMenuSeparator,
-} from "./ui/context-menu";
+} from "./ui/ContextMenu";
 import { useFlowSelector } from "@/lib/store/flow-state";
 import useFlowMousePosition from "@/hooks/useFlowMousePosition";
 import { Edge, Node } from "@xyflow/react";
 import { GenerateId } from "@/util/generate-id";
-import { SignalVariant } from "./nodes/signal-node";
+import { SignalVariant } from "./nodes/SignalNode";
 import { Trash2 } from "lucide-react";
 
 export default function ContextMenuWrapper({
