@@ -54,10 +54,9 @@ export default function Flow() {
   );
 
   return (
-    <ContextMenu>
-      <ContextMenuTrigger asChild>
+    <ContextMenuWrapper>
         <ReactFlow
-          colorMode={getColorMode(theme)}
+        colorMode={"dark"} // Fix dynamic theming
           nodes={nodes}
           edges={edges}
           onNodesChange={onNodesChange}
@@ -74,14 +73,6 @@ export default function Flow() {
           <Background gap={15} /> {/* Grid background */}
           <Controls /> {/* Zoom and pan controls */}
         </ReactFlow>
-      </ContextMenuTrigger>
-
-      <ContextMenuContent>
-        <ContextMenuItem>Profile</ContextMenuItem>
-        <ContextMenuItem>Billing</ContextMenuItem>
-        <ContextMenuItem>Team</ContextMenuItem>
-        <ContextMenuItem>Subscription</ContextMenuItem>
-      </ContextMenuContent>
-    </ContextMenu>
+    </ContextMenuWrapper>
   );
 }
