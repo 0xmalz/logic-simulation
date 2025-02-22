@@ -23,8 +23,8 @@ export default function ContextMenuWrapper({
   const { x, y } = useFlowMousePosition();
 
   function handleAddNode() {
-    addNode({
-      id: `${Date.now() + Math.floor(Math.random() * 10)}`,
+    addNodes({
+      id: GenerateId(),
       type: "logicGate",
       data: { label: "And", input: 2, output: 1 },
       position: { x: x, y: y },
