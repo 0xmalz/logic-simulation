@@ -11,7 +11,7 @@ import {
 import { useKeyPress } from "@/hooks/useKeyPress";
 
 import ContextMenuWrapper from "./ContextMenuWrapper";
-import { useFlowSelector } from "@/lib/store/flow-state";
+import { useFlowSelector } from "@/lib/store/useFlowStore";
 import { useCallback, useState } from "react";
 import LogicGateNode from "./nodes/LogicGateNode";
 import SignalNode from "./nodes/SignalNode";

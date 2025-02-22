@@ -10,7 +10,7 @@ import {
   ContextMenuSubContent,
   ContextMenuSeparator,
 } from "./ui/ContextMenu";
-import { useFlowSelector } from "@/lib/store/flow-state";
+import { useFlowSelector } from "@/lib/store/useFlowStore";
 import useFlowMousePosition from "@/hooks/useFlowMousePosition";
 import { Edge, Node } from "@xyflow/react";
 import { GenerateId } from "@/util/generate-id";
