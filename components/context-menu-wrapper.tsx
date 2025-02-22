@@ -33,7 +33,56 @@ export default function ContextMenuWrapper({
 
   const { x, y } = useFlowMousePosition();
 
-  function handleAddNode() {
+  function handleNewGate(type: string) {
+    console.log("Create AND");
+
+    if (type === "AND") {
+      addNodes({
+        id: GenerateId(),
+        type: "logicGate",
+        data: {
+          label: "AND",
+          input: 2,
+          output: 1,
+          variants: {
+            color: "blue",
+          },
+        },
+        position: { x: x, y: y },
+        origin: [0.5, 0.5],
+      });
+    } else if (type === "NOT") {
+      addNodes({
+        id: GenerateId(),
+        type: "logicGate",
+        data: {
+          label: "NOT",
+          input: 1,
+          output: 1,
+          variants: {
+            color: "red",
+          },
+        },
+        position: { x: x, y: y },
+        origin: [0.5, 0.5],
+      });
+    } else if (type === "OR") {
+      addNodes({
+        id: GenerateId(),
+        type: "logicGate",
+        data: {
+          label: "OR",
+          input: 2,
+          output: 1,
+          variants: {
+            color: "green",
+          },
+        },
+        position: { x: x, y: y },
+        origin: [0.5, 0.5],
+      });
+    }
+  }
     addNodes({
       id: GenerateId(),
       type: "logicGate",
@@ -103,10 +152,17 @@ export default function ContextMenuWrapper({
         <ContextMenuSub>
           <ContextMenuSubTrigger>New Gate</ContextMenuSubTrigger>
           <ContextMenuSubContent>
-            <ContextMenuItem onClick={() => handleAddNode()}>
+            <ContextMenuItem onClick={() => handleNewGate("AND")}>
               AND
             </ContextMenuItem>
-            <ContextMenuItem>NOT</ContextMenuItem>
+
+            <ContextMenuItem onClick={() => handleNewGate("NOT")}>
+              NOT
+            </ContextMenuItem>
+
+            <ContextMenuItem onClick={() => handleNewGate("OR")}>
+              OR
+            </ContextMenuItem>
           </ContextMenuSubContent>
         </ContextMenuSub>
 
@@ -114,17 +170,17 @@ export default function ContextMenuWrapper({
         <ContextMenuSeparator />
 
         {/* Regular menu items */}
-        <ContextMenuItem>
+        <ContextMenuItem onClick={() => handleCut()}>
           Cut
           <ContextMenuShortcut>⌘X</ContextMenuShortcut>
         </ContextMenuItem>
 
-        <ContextMenuItem onClick={() => handleCopyClipboard()}>
+        <ContextMenuItem onClick={() => handleCopy()}>
           Copy
           <ContextMenuShortcut>⌘C</ContextMenuShortcut>
         </ContextMenuItem>
 
-        <ContextMenuItem onClick={() => handlePasteClipboard()}>
+        <ContextMenuItem onClick={() => handlePaste()}>
           Paste
           <ContextMenuShortcut>⌘V</ContextMenuShortcut>
         </ContextMenuItem>

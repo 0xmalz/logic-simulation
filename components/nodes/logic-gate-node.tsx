@@ -2,6 +2,34 @@ import { useMemo } from "react";
 import { Node, NodeProps, Handle, Position } from "@xyflow/react";
 import { Label } from "@/components/ui/label";
 import { Card } from "../ui/card";
+import { cva, VariantProps } from "class-variance-authority";
+import { cn } from "@/lib/utils";
+
+/**
+ * Defines the styling variants for a logic gate node.
+ * Uses `cva` to manage conditional class names for styling.
+ */
+const logicGateNodeVariants = cva(
+  "flex justify-center items-center border rounded-sm transition-colors duration-300",
+  {
+    variants: {
+      color: {
+        blue: "border-blue-950 bg-blue-600 hover:bg-blue-500",
+        red: "border-red-950 bg-red-600 hover:bg-red-500",
+        green: "border-green-950 bg-green-600 hover:bg-green-500",
+      },
+    },
+    defaultVariants: {
+      color: "blue",
+    },
+  }
+);
+
+/**
+ * Represents the type definition for the logic gate node variants.
+ * Extracts the available variant props from `logicGateNodeVariants`.
+ */
+type LogicGateNodeVariants = VariantProps<typeof logicGateNodeVariants>;
 
 /**
  * Represents the props for the LogicGate node.
@@ -14,6 +42,7 @@ export type LogicGateProps = Node<
     label: string;
     input: number;
     output: number;
+    variants?: LogicGateNodeVariants;
   },
   "logicGate"
 >;
@@ -56,7 +85,7 @@ const generateHandles = (
  */
 export default function LogicGateNode(props: NodeProps<LogicGateProps>) {
   const { data } = props;
-  const { label, input, output } = data;
+  const { label, input, output, variants } = data;
 
   // Calculate the maximum number of handles to determine the dimensions height
   const maxHandles = useMemo(() => {
@@ -78,7 +107,7 @@ export default function LogicGateNode(props: NodeProps<LogicGateProps>) {
         width: dimensions.width,
         height: dimensions.height,
       }}
-      className="flex justify-center items-center border border-blue-950 rounded-sm bg-blue-600 hover:bg-blue-500 transition-colors duration-300"
+      className={cn(logicGateNodeVariants(variants))}
     >
       <Label className="text-lg font-semibold text-white">{label}</Label>
 
