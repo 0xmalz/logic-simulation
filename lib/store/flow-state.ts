@@ -27,8 +27,9 @@ export type FlowState = {
 
   setNodes: (nodes: Node[]) => void;
   setEdges: (edges: Edge[]) => void;
-  addNode: (node: Node) => void;
-  addEdge: (edge: Edge) => void;
+
+  addNodes: (nodes: Node | Node[]) => void;
+  addEdges: (edges: Edge | Edge[]) => void;
 
   onNodesChange: OnNodesChange<Node>;
   onEdgesChange: OnEdgesChange;
@@ -38,6 +39,11 @@ export type FlowState = {
   selectedEdges: Edge[];
   setSelectedNodes: (nodes: Node[]) => void;
   setSelectedEdges: (nodes: Edge[]) => void;
+
+  nodeClipboard: Node[];
+  edgeClipboard: Edge[];
+  setNodeClipboard: (nodes: Node[]) => void;
+  setEdgeClipboard: (edges: Edge[]) => void;
 };
 
 export const useFlowStore = create<FlowState>((set, get) => ({
@@ -46,8 +52,16 @@ export const useFlowStore = create<FlowState>((set, get) => ({
 
   setNodes: (nodes) => set({ nodes }),
   setEdges: (edges) => set({ edges }),
-  addNode: (node) => set({ nodes: [...get().nodes, node] }),
-  addEdge: (edge) => set({ edges: [...get().edges, edge] }),
+
+  addNodes: (nodes) =>
+    set((state) => ({
+      nodes: [...state.nodes, ...(Array.isArray(nodes) ? nodes : [nodes])],
+    })),
+
+  addEdges: (edge) =>
+    set((state) => ({
+      edges: [...state.edges, ...(Array.isArray(edge) ? edge : [edge])],
+    })),
 
   onNodesChange: (changes) => {
     set({ nodes: applyNodeChanges(changes, get().nodes) });
@@ -63,24 +77,37 @@ export const useFlowStore = create<FlowState>((set, get) => ({
   selectedEdges: [],
   setSelectedNodes: (selectedNodes) => set({ selectedNodes }),
   setSelectedEdges: (selectedEdges) => set({ selectedEdges }),
+
+  nodeClipboard: [],
+  edgeClipboard: [],
+  setNodeClipboard: (nodeClipboard) => set({ nodeClipboard }),
+  setEdgeClipboard: (edgeClipboard) => set({ edgeClipboard }),
 }));
 
-// TODO: Check how this selector really works.
 export const useFlowSelector = () =>
   useFlowStore(
     useShallow((state) => ({
       nodes: state.nodes,
       edges: state.edges,
+
       onNodesChange: state.onNodesChange,
       onEdgesChange: state.onEdgesChange,
       onConnect: state.onConnect,
+
       setNodes: state.setNodes,
       setEdges: state.setEdges,
-      addNode: state.addNode,
-      addEdge: state.addEdge,
+
+      addNodes: state.addNodes,
+      addEdges: state.addEdges,
+
       selectedNodes: state.selectedNodes,
       selectedEdges: state.selectedEdges,
       setSelectedNodes: state.setSelectedNodes,
       setSelectedEdges: state.setSelectedEdges,
+
+      nodeClipboard: state.nodeClipboard,
+      edgeClipboard: state.edgeClipboard,
+      setNodeClipboard: state.setNodeClipboard,
+      setEdgeClipboard: state.setEdgeClipboard,
     }))
   );

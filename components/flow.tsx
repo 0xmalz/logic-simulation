@@ -1,16 +1,10 @@
 "use client";
 
 import {
-  addEdge,
-  applyEdgeChanges,
-  applyNodeChanges,
   Background,
-  ColorMode,
-  Connection,
   Controls,
   Node,
   Edge,
-  Node,
   ReactFlow,
   useOnSelectionChange,
 } from "@xyflow/react";
@@ -53,26 +47,39 @@ export default function Flow() {
     ["Space"] // Key codes to listen for
   );
 
+  const onChange = useCallback(
+    ({ nodes, edges }: { nodes: Node[]; edges: Edge[] }) => {
+      console.log(nodes);
+      setSelectedNodes(nodes);
+      setSelectedEdges(edges);
+    },
+    []
+  );
+
+  useOnSelectionChange({
+    onChange,
+  });
+
   return (
     <ContextMenuWrapper>
-        <ReactFlow
+      <ReactFlow
         colorMode={"dark"} // Fix dynamic theming
-          nodes={nodes}
-          edges={edges}
-          onNodesChange={onNodesChange}
-          onEdgesChange={onEdgesChange}
-          selectionKeyCode={null}
-          selectionOnDrag
-          panOnDrag={isSpacePressed}
-          onConnect={onConnect}
-          nodeTypes={nodeTypes} // Pass custom node types
-          snapToGrid // Enable snap to grid
-          snapGrid={[1, 1]} // Grid size for snapping
-          fitView // Automatically fit the diagram to the viewport
-        >
-          <Background gap={15} /> {/* Grid background */}
-          <Controls /> {/* Zoom and pan controls */}
-        </ReactFlow>
+        nodes={nodes}
+        edges={edges}
+        onNodesChange={onNodesChange}
+        onEdgesChange={onEdgesChange}
+        selectionKeyCode={null}
+        selectionOnDrag
+        panOnDrag={isSpacePressed}
+        onConnect={onConnect}
+        nodeTypes={nodeTypes} // Pass custom node types
+        snapToGrid // Enable snap to grid
+        snapGrid={[1, 1]} // Grid size for snapping
+        fitView // Automatically fit the diagram to the viewport
+      >
+        <Background gap={15} /> {/* Grid background */}
+        <Controls /> {/* Zoom and pan controls */}
+      </ReactFlow>
     </ContextMenuWrapper>
   );
 }
