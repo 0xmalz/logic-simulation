@@ -23,16 +23,16 @@ export type LogicGateProps = Node<
  * @param {number} handleCount - The number of handles to generate.
  * @param {"target" | "source"} type - The type of handles to generate (target or source).
  * @param {Position} position - The position of the handles (e.g., Position.Left, Position.Right).
- * @param {number} containerHeight - The height of the container.
+ * @param {number} dimensionsHeight - The height of the dimensions.
  * @returns {JSX.Element[]} - An array of Handle components.
  */
 const generateHandles = (
   handleCount: number,
   type: "target" | "source",
   position: Position,
-  containerHeight: number
+  height: number
 ) => {
-  const spacing = containerHeight / (handleCount + 1);
+  const spacing = height / (handleCount + 1);
 
   return Array.from({ length: handleCount }, (_, index) => {
     const topPosition = spacing * (index + 1);
@@ -58,13 +58,13 @@ export default function LogicGateNode(props: NodeProps<LogicGateProps>) {
   const { data } = props;
   const { label, input, output } = data;
 
-  // Calculate the maximum number of handles to determine the container height
+  // Calculate the maximum number of handles to determine the dimensions height
   const maxHandles = useMemo(() => {
     return Math.max(input ?? 0, output ?? 0);
   }, [input, output]);
 
-  // Container dimensions based on the maximum number of handles
-  const container = useMemo(
+  // dimensionss based on the maximum number of handles
+  const dimensions = useMemo(
     () => ({
       width: 70 + maxHandles * 10, // Adjust width based on the number of handles
       height: 15 + maxHandles * 15, // Adjust height based on the number of handles
@@ -75,18 +75,18 @@ export default function LogicGateNode(props: NodeProps<LogicGateProps>) {
   return (
     <Card
       style={{
-        width: container.width,
-        height: container.height,
+        width: dimensions.width,
+        height: dimensions.height,
       }}
       className="flex justify-center items-center border border-blue-950 rounded-sm bg-blue-600 hover:bg-blue-500 transition-colors duration-300"
     >
       <Label className="text-lg font-semibold text-white">{label}</Label>
 
       {/* Target Handles (Left Side) */}
-      {generateHandles(input, "target", Position.Left, container.height)}
+      {generateHandles(input, "target", Position.Left, dimensions.height)}
 
       {/* Source Handles (Right Side) */}
-      {generateHandles(output, "source", Position.Right, container.height)}
+      {generateHandles(output, "source", Position.Right, dimensions.height)}
     </Card>
   );
 }
