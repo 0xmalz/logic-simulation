@@ -10,12 +10,13 @@ import {
   ContextMenuSubContent,
   ContextMenuSeparator,
 } from "./ui/ContextMenu";
-import { useFlowSelector } from "@/lib/store/useFlowStore";
+import { useFlowSelector } from "@/lib/stores/useFlowStore";
 import useFlowMousePosition from "@/hooks/useFlowMousePosition";
 import { Edge, Node } from "@xyflow/react";
 import { GenerateId } from "@/util/generate-id";
 import { SignalVariant } from "./nodes/SignalNode";
 import { Trash2 } from "lucide-react";
+import { timeMachine } from "@/lib/TimeMachine";
 
 export default function ContextMenuWrapper({
   children,
@@ -219,12 +220,12 @@ export default function ContextMenuWrapper({
 
         <ContextMenuSeparator />
 
-        <ContextMenuItem>
+        <ContextMenuItem onClick={() => timeMachine.undo()}>
           Undo
           <ContextMenuShortcut>⌘Z</ContextMenuShortcut>
         </ContextMenuItem>
 
-        <ContextMenuItem>
+        <ContextMenuItem onClick={() => timeMachine.redo()}>
           Redo
           <ContextMenuShortcut>⇧⌘Z</ContextMenuShortcut>
         </ContextMenuItem>

@@ -7,14 +7,17 @@ import {
   Edge,
   ReactFlow,
   useOnSelectionChange,
+  useReactFlow,
+  XYPosition,
 } from "@xyflow/react";
 import { useKeyPress } from "@/hooks/useKeyPress";
 
 import ContextMenuWrapper from "./ContextMenuWrapper";
-import { useFlowSelector } from "@/lib/store/useFlowStore";
+import { useFlowSelector } from "@/lib/stores/useFlowStore";
 import { useCallback, useState } from "react";
 import LogicGateNode from "./nodes/LogicGateNode";
 import SignalNode from "./nodes/SignalNode";
+import { handleNodeDragStart, handleNodeDragStop } from "@/lib/action/MoveNode";
 
 /**
  * Flow component that renders a React Flow diagram with customizable nodes and edges.
@@ -26,6 +29,8 @@ import SignalNode from "./nodes/SignalNode";
  * @returns {JSX.Element} The rendered Flow component with a context menu for additional actions.
  */
 export default function Flow() {
+  const { updateNode } = useReactFlow();
+
   const {
     nodes,
     edges,
@@ -40,6 +45,10 @@ export default function Flow() {
 
   const [isSpacePressed, setIsSpacePressed] = useState(false);
 
+  const [nodeDragStartPositions, setNodeDragStartPositions] = useState<
+    Map<string, XYPosition>
+  >(new Map());
+
   // Use the custom hook to listen for the Space key
   useKeyPress(
     () => setIsSpacePressed(true), // onKeyDown
@@ -49,12 +58,18 @@ export default function Flow() {
 
   const onChange = useCallback(
     ({ nodes, edges }: { nodes: Node[]; edges: Edge[] }) => {
-      console.log(nodes);
       setSelectedNodes(nodes);
       setSelectedEdges(edges);
     },
-    []
+    [setSelectedNodes, setSelectedEdges]
   );
+
+  useOnSelectionChange({
+    onChange: ({ nodes, edges }) => {
+      setSelectedNodes(nodes);
+      setSelectedEdges(edges);
+    },
+  });
 
   useOnSelectionChange({
     onChange,
@@ -76,6 +91,17 @@ export default function Flow() {
         snapToGrid // Enable snap to grid
         snapGrid={[1, 1]} // Grid size for snapping
         fitView // Automatically fit the diagram to the viewport
+        onNodeDragStart={(event, node, nodes) =>
+          handleNodeDragStart(nodes, setNodeDragStartPositions)
+        }
+        onNodeDragStop={(event, node, nodes) =>
+          handleNodeDragStop(
+            nodes,
+            nodeDragStartPositions,
+            setNodeDragStartPositions,
+            updateNode
+          )
+        }
       >
         <Background gap={15} /> {/* Grid background */}
         <Controls /> {/* Zoom and pan controls */}
