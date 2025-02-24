@@ -12,12 +12,15 @@ import {
 } from "./ui/ContextMenu";
 import { useFlowStore } from "@/lib/stores/useFlowStore";
 import useFlowMousePosition from "@/hooks/useFlowMousePosition";
-import { Edge, Node } from "@xyflow/react";
+import { Node } from "@xyflow/react";
 import { GenerateId } from "@/util/generate-id";
 import { SignalVariant } from "./nodes/SignalNode";
 import { Trash2 } from "lucide-react";
 import { timeMachine } from "@/lib/TimeMachine";
 import { CreateNode } from "@/lib/action/CreateNode";
+import { Cut } from "@/lib/action/Cut";
+import { Paste } from "@/lib/action/Paste";
+import { useTimeMachineStore } from "@/lib/stores/useTimeMachineStore";
 
 export default function ContextMenuWrapper({
   children,
@@ -25,19 +28,15 @@ export default function ContextMenuWrapper({
   children: ReactNode;
 }) {
   const {
-    addNodes,
-    addEdges,
-    removeNodes,
+        removeNodes,
     removeEdges,
     selectedNodes,
     selectedEdges,
     setNodeClipboard,
     setEdgeClipboard,
-    nodeClipboard,
-    edgeClipboard,
-  } = useFlowStore.getState();
+      } = useFlowStore.getState();
 
-  const { x, y } = useFlowMousePosition();
+  const flowMousePosition = useFlowMousePosition();
 
   function handleNewGate(type: string) {
     let node: Node | null = null;
@@ -112,11 +111,7 @@ export default function ContextMenuWrapper({
   }
 
   function handleCut() {
-    setNodeClipboard(selectedNodes);
-    setEdgeClipboard(selectedEdges);
-
-    removeNodes(selectedNodes);
-    removeEdges(selectedEdges);
+    register(new Cut());
   }
 
   function handleCopy() {
@@ -125,43 +120,8 @@ export default function ContextMenuWrapper({
   }
 
   function handlePaste() {
-    const idMap: Record<string, string> = {};
-
-    const [left, right, top, bottom] = [
-      Math.min(...nodeClipboard.map((node) => node.position.x)),
-      Math.max(...nodeClipboard.map((node) => node.position.x)),
-      Math.min(...nodeClipboard.map((node) => node.position.y)),
-      Math.max(...nodeClipboard.map((node) => node.position.y)),
-    ];
-
-    const xCenter = (left + right) / 2;
-    const yCenter = (top + bottom) / 2;
-
-    const newNodes: Node[] = nodeClipboard.map((node: Node) => {
-      const newNodeId = GenerateId();
-      idMap[node.id] = newNodeId; // Map the old ID to the new ID
-
-      return {
-        ...node,
-        id: newNodeId,
-        position: {
-          x: x + (node.position.x - xCenter), // Normalize to origin and add mouse x
-          y: y + (node.position.y - yCenter), // Normalize to origin and add mouse y
-        },
-        origin: [0.5, 0.5],
-      };
-    });
-
-    // Create new edges using the ID mapping
-    const newEdges: Edge[] = edgeClipboard.map((edge) => ({
-      ...edge,
-      id: GenerateId(), // Generate a unique ID for the edge
-      source: idMap[edge.source] || edge.source, // Map to new source ID
-      target: idMap[edge.target] || edge.target, // Map to new target ID
-    }));
-
-    addNodes(newNodes);
-    addEdges(newEdges);
+    const paste = new Paste(flowMousePosition);
+    register(paste);
   }
 
   function handleDelete() {
