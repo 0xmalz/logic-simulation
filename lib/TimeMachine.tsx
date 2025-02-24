@@ -13,15 +13,11 @@ class TimeMachine {
    * @param Action - The action to register.
    * @param executeOnRegister - Whether to execute the action immediately.
    */
-  register(Action: Action, executeOnRegister: boolean = false): void {
-    if (process.env.NODE_ENV === "development") {
-      console.log("Action:", Action);
-      console.log("History:", this.history);
-    }
-
+  register(Action: Action, executeOnRegister: boolean = true): void {
     if (executeOnRegister) Action.execute();
 
     this.history.push(Action);
+
     if (this.history.length > this.historyLimit) {
       this.history.shift(); // Remove the oldest action
     }
