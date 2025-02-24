@@ -17,6 +17,7 @@ import { GenerateId } from "@/util/generate-id";
 import { SignalVariant } from "./nodes/SignalNode";
 import { Trash2 } from "lucide-react";
 import { timeMachine } from "@/lib/TimeMachine";
+import { CreateNode } from "@/lib/action/CreateNode";
 
 export default function ContextMenuWrapper({
   children,
@@ -39,10 +40,10 @@ export default function ContextMenuWrapper({
   const { x, y } = useFlowMousePosition();
 
   function handleNewGate(type: string) {
-    console.log("Create AND");
+    let node: Node | null = null;
 
     if (type === "AND") {
-      addNodes({
+      node = {
         id: GenerateId(),
         type: "logicGate",
         data: {
@@ -55,9 +56,9 @@ export default function ContextMenuWrapper({
         },
         position: { x: x, y: y },
         origin: [0.5, 0.5],
-      });
+      };
     } else if (type === "NOT") {
-      addNodes({
+      node = {
         id: GenerateId(),
         type: "logicGate",
         data: {
@@ -70,9 +71,9 @@ export default function ContextMenuWrapper({
         },
         position: { x: x, y: y },
         origin: [0.5, 0.5],
-      });
+      };
     } else if (type === "OR") {
-      addNodes({
+      node = {
         id: GenerateId(),
         type: "logicGate",
         data: {
@@ -85,12 +86,17 @@ export default function ContextMenuWrapper({
         },
         position: { x: x, y: y },
         origin: [0.5, 0.5],
-      });
+      };
+    }
+
+    if (node) {
+      const createNode = new CreateNode(node);
+      timeMachine.register(createNode);
     }
   }
 
   function handleNewSignal(variant: SignalVariant) {
-    addNodes({
+    let node: Node = {
       id: GenerateId(),
       type: "signal",
       data: {
@@ -99,7 +105,10 @@ export default function ContextMenuWrapper({
       },
       position: { x: x, y: y },
       origin: [0.5, 0.5],
-    });
+    };
+
+    const createNode = new CreateNode(node);
+    timeMachine.register(createNode);
   }
 
   function handleCut() {
