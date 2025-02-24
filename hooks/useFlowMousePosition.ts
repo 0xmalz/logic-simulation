@@ -1,4 +1,4 @@
-import { useReactFlow } from "@xyflow/react";
+import { useReactFlow, XYPosition } from "@xyflow/react";
 import useMousePosition from "./useMousePosition";
 
 /**
@@ -13,7 +13,9 @@ const useFlowMousePosition = () => {
   const x = mousePosition.x ?? 0;
   const y = mousePosition.y ?? 0;
 
-  return screenToFlowPosition({ x, y });
+  const position: XYPosition = { x, y };
+
+  return screenToFlowPosition(position);
 };
 
 export default useFlowMousePosition;
