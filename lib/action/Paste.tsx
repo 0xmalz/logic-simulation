@@ -1,7 +1,8 @@
 import { Node, Edge, XYPosition } from "@xyflow/react";
 import { useFlowStore } from "../stores/useFlowStore";
-import { Action } from "../types/Action";
+import { Action } from "../models/types/Action";
 import { GenerateId } from "@/util/generate-id";
+import { Time } from "../models/enums/Time";
 
 export class Paste implements Action {
   private flowMousePosition: XYPosition;
@@ -64,5 +65,29 @@ export class Paste implements Action {
 
     removeNodes(this.newNodes);
     removeEdges(this.newEdges);
+  }
+
+  details(time: Time): { name: string; description: string } {
+    const nodeCount = this.newNodes.length;
+    const edgeCount = this.newEdges.length; // Assuming `newEdges` exists
+
+    let nodeText;
+    if (nodeCount === 1) {
+      // If there's only one node, show its position
+      nodeText = `node at x: ${this.newNodes[0].position.x}, y: ${this.newNodes[0].position.y}`;
+    } else {
+      // Otherwise, show the count
+      nodeText = `${nodeCount} nodes`;
+    }
+
+    const edgeText =
+      edgeCount > 0
+        ? ` and ${edgeCount} edge${edgeCount !== 1 ? "s" : ""}`
+        : "";
+
+    return {
+      name: time === Time.Past ? "Pasted" : "Paste",
+      description: `${nodeText}${edgeText}`,
+    };
   }
 }

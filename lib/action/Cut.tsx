@@ -1,6 +1,7 @@
 import { Node, Edge } from "@xyflow/react";
 import { useFlowStore } from "../stores/useFlowStore";
-import { Action } from "../types/Action";
+import { Action } from "../models/types/Action";
+import { Time } from "../models/enums/Time";
 
 export class Cut implements Action {
   private selectedNodes: Node[];
@@ -30,5 +31,21 @@ export class Cut implements Action {
 
     addNodes(this.selectedNodes);
     addEdges(this.selectedEdges);
+  }
+
+  details(time: Time): { name: string; description: string } {
+    const nodeCount = this.selectedNodes.length;
+    const edgeCount = this.selectedEdges.length;
+
+    const nodeText = `${nodeCount} node${nodeCount !== 1 ? "s" : ""}`;
+    const edgeText =
+      edgeCount > 0 ? `and ${edgeCount} edge${edgeCount !== 1 ? "s" : ""}` : "";
+
+    const action = time === Time.Past ? "deleted" : "delete";
+
+    return {
+      name: "Cut",
+      description: `${action} ${nodeText} ${edgeText}`.trim(),
+    };
   }
 }

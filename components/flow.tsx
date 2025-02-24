@@ -106,6 +106,7 @@ export default function Flow() {
         colorMode={"dark"} // Fix dynamic theming
         nodes={nodes}
         edges={edges}
+        // onBeforeDelete={onBeforeDelete}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         selectionKeyCode={null}

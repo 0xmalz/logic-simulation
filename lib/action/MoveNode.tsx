@@ -1,5 +1,6 @@
 // Actions/MoveNodeAction.ts
-import { Action } from "../types/Action";
+import { Time } from "../models/enums/Time";
+import { Action } from "../models/types/Action";
 import { Node, XYPosition } from "@xyflow/react";
 
 export class MoveNode implements Action {
@@ -50,5 +51,25 @@ export class MoveNode implements Action {
 
   undo(): void {
     this.updatePosition(this.oldPosition);
+  }
+
+  details(time: Time): { name: string; description: string } {
+    const name: string = time === Time.Past ? "Moved" : "Move";
+    const nodeCount = this.nodeIds.length;
+
+    if (nodeCount > 1) {
+      return {
+        name: name,
+        description: `${nodeCount} nodes`,
+      };
+    } else {
+      const oldPos = this.oldPosition[0];
+      const newPos = this.newPosition[0];
+
+      return {
+        name: name,
+        description: `from (x: ${oldPos.x}, y: ${oldPos.y}) to (x: ${newPos.x}, y: ${newPos.y})`,
+      };
+    }
   }
 }
