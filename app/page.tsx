@@ -4,7 +4,7 @@ import "@xyflow/react/dist/style.css";
 import { ReactFlowProvider } from "@xyflow/react";
 import { ThemeDropDownMenu } from "@/components/ThemeDropDownMenu";
 import StatusOverlay from "@/components/StatusOverlay";
-import Flow from "@/components/flow";
+import Flow from "@/components/Flow";
 
 /**
  * Main App component
