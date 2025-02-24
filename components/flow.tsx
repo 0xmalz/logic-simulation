@@ -11,13 +11,13 @@ import {
   XYPosition,
 } from "@xyflow/react";
 import { useKeyPress } from "@/hooks/useKeyPress";
-
 import ContextMenuWrapper from "./ContextMenuWrapper";
 import { useFlowStore } from "@/lib/stores/useFlowStore";
 import { useCallback, useState } from "react";
 import LogicGateNode from "./nodes/LogicGateNode";
 import SignalNode from "./nodes/SignalNode";
-import { handleNodeDragStart, handleNodeDragStop } from "@/lib/action/MoveNode";
+import { timeMachine } from "@/lib/TimeMachine";
+import { MoveNode } from "@/lib/action/MoveNode";
 
 /**
  * Flow component that renders a React Flow diagram with customizable nodes and edges.
@@ -31,8 +31,9 @@ import { handleNodeDragStart, handleNodeDragStop } from "@/lib/action/MoveNode";
 export default function Flow() {
   const { updateNode } = useReactFlow();
 
+  const { nodes } = useFlowStore();
+
   const {
-    nodes,
     edges,
     onNodesChange,
     onEdgesChange,
@@ -75,6 +76,29 @@ export default function Flow() {
     onChange,
   });
 
+  const handleNodeDragStart = (nodes: Node[]) => {
+    setNodeDragStartPositions(
+      new Map(nodes.map((node) => [node.id, node.position]))
+    );
+  };
+
+  const handleNodeDragStop = (nodes: Node[]) => {
+    const nodeIds = Array.from(nodeDragStartPositions.keys());
+    const oldPositions = Array.from(nodeDragStartPositions.values());
+    const newPositions = nodes.map((node) => node.position);
+
+    const moveAction = new MoveNode(
+      nodeIds,
+      oldPositions,
+      newPositions,
+      updateNode
+    );
+
+    timeMachine.register(moveAction, false);
+
+    setNodeDragStartPositions(new Map());
+  };
+
   return (
     <ContextMenuWrapper>
       <ReactFlow
@@ -91,17 +115,8 @@ export default function Flow() {
         snapToGrid // Enable snap to grid
         snapGrid={[1, 1]} // Grid size for snapping
         fitView // Automatically fit the diagram to the viewport
-        onNodeDragStart={(event, node, nodes) =>
-          handleNodeDragStart(nodes, setNodeDragStartPositions)
-        }
-        onNodeDragStop={(event, node, nodes) =>
-          handleNodeDragStop(
-            nodes,
-            nodeDragStartPositions,
-            setNodeDragStartPositions,
-            updateNode
-          )
-        }
+        onNodeDragStart={(_, __, nodes) => handleNodeDragStart(nodes)}
+        onNodeDragStop={(_, __, nodes) => handleNodeDragStop(nodes)}
       >
         <Background gap={15} /> {/* Grid background */}
         <Controls /> {/* Zoom and pan controls */}
