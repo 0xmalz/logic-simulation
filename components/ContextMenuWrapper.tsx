@@ -98,6 +98,8 @@ export default function ContextMenuWrapper({
   }
 
   function handleNewSignal(variant: SignalVariant) {
+    const { x, y } = flowMousePosition;
+
     let node: Node = {
       id: GenerateId(),
       type: "signal",
