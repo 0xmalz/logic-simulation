@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Action } from "../types/Action";
+import { Action } from "../models/types/Action";
 
 interface TimeMachineState {
   history: Action[];
