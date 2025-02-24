@@ -16,7 +16,6 @@ import { Node } from "@xyflow/react";
 import { GenerateId } from "@/util/generate-id";
 import { SignalVariant } from "./nodes/SignalNode";
 import { Trash2 } from "lucide-react";
-import { timeMachine } from "@/lib/TimeMachine";
 import { CreateNode } from "@/lib/action/CreateNode";
 import { Cut } from "@/lib/action/Cut";
 import { Paste } from "@/lib/action/Paste";
@@ -27,19 +26,23 @@ export default function ContextMenuWrapper({
 }: {
   children: ReactNode;
 }) {
+  const { register, redo, undo } = useTimeMachineStore();
+
   const {
-        removeNodes,
+    removeNodes,
     removeEdges,
     selectedNodes,
     selectedEdges,
     setNodeClipboard,
     setEdgeClipboard,
-      } = useFlowStore.getState();
+  } = useFlowStore.getState();
 
   const flowMousePosition = useFlowMousePosition();
 
   function handleNewGate(type: string) {
     let node: Node | null = null;
+
+    const { x, y } = flowMousePosition;
 
     if (type === "AND") {
       node = {
@@ -90,7 +93,7 @@ export default function ContextMenuWrapper({
 
     if (node) {
       const createNode = new CreateNode(node);
-      timeMachine.register(createNode);
+      register(createNode);
     }
   }
 
@@ -107,7 +110,7 @@ export default function ContextMenuWrapper({
     };
 
     const createNode = new CreateNode(node);
-    timeMachine.register(createNode);
+    register(createNode);
   }
 
   function handleCut() {
@@ -189,12 +192,12 @@ export default function ContextMenuWrapper({
 
         <ContextMenuSeparator />
 
-        <ContextMenuItem onClick={() => timeMachine.undo()}>
+        <ContextMenuItem onClick={() => undo()}>
           Undo
           <ContextMenuShortcut>⌘Z</ContextMenuShortcut>
         </ContextMenuItem>
 
-        <ContextMenuItem onClick={() => timeMachine.redo()}>
+        <ContextMenuItem onClick={() => redo()}>
           Redo
           <ContextMenuShortcut>⇧⌘Z</ContextMenuShortcut>
         </ContextMenuItem>

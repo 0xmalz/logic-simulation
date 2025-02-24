@@ -16,8 +16,8 @@ import { useFlowStore } from "@/lib/stores/useFlowStore";
 import { useCallback, useState } from "react";
 import LogicGateNode from "./nodes/LogicGateNode";
 import SignalNode from "./nodes/SignalNode";
-import { timeMachine } from "@/lib/TimeMachine";
 import { MoveNode } from "@/lib/action/MoveNode";
+import { useTimeMachineStore } from "@/lib/stores/useTimeMachineStore";
 
 /**
  * Flow component that renders a React Flow diagram with customizable nodes and edges.
@@ -30,6 +30,7 @@ import { MoveNode } from "@/lib/action/MoveNode";
  */
 export default function Flow() {
   const { updateNode } = useReactFlow();
+  const { register } = useTimeMachineStore();
 
   const { nodes } = useFlowStore();
 
@@ -94,7 +95,7 @@ export default function Flow() {
       updateNode
     );
 
-    timeMachine.register(moveAction, false);
+    register(moveAction, false);
 
     setNodeDragStartPositions(new Map());
   };
