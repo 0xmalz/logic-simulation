@@ -10,7 +10,7 @@ import {
   ContextMenuSubContent,
   ContextMenuSeparator,
 } from "./ui/ContextMenu";
-import { useFlowSelector } from "@/lib/stores/useFlowStore";
+import { useFlowStore } from "@/lib/stores/useFlowStore";
 import useFlowMousePosition from "@/hooks/useFlowMousePosition";
 import { Edge, Node } from "@xyflow/react";
 import { GenerateId } from "@/util/generate-id";
@@ -34,7 +34,7 @@ export default function ContextMenuWrapper({
     setEdgeClipboard,
     nodeClipboard,
     edgeClipboard,
-  } = useFlowSelector();
+  } = useFlowStore.getState();
 
   const { x, y } = useFlowMousePosition();
 

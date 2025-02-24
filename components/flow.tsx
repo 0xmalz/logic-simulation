@@ -13,7 +13,7 @@ import {
 import { useKeyPress } from "@/hooks/useKeyPress";
 
 import ContextMenuWrapper from "./ContextMenuWrapper";
-import { useFlowSelector } from "@/lib/stores/useFlowStore";
+import { useFlowStore } from "@/lib/stores/useFlowStore";
 import { useCallback, useState } from "react";
 import LogicGateNode from "./nodes/LogicGateNode";
 import SignalNode from "./nodes/SignalNode";
@@ -39,7 +39,7 @@ export default function Flow() {
     onConnect,
     setSelectedNodes,
     setSelectedEdges,
-  } = useFlowSelector();
+  } = useFlowStore.getState();
 
   const nodeTypes = { signal: SignalNode, logicGate: LogicGateNode };
 

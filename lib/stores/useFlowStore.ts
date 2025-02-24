@@ -10,7 +10,6 @@ import {
   applyNodeChanges,
   applyEdgeChanges,
 } from "@xyflow/react";
-import { useShallow } from "zustand/react/shallow";
 
 export const initialNodes = [
   {
@@ -102,34 +101,3 @@ export const useFlowStore = create<FlowState>((set, get) => ({
   setNodeClipboard: (nodeClipboard) => set({ nodeClipboard }),
   setEdgeClipboard: (edgeClipboard) => set({ edgeClipboard }),
 }));
-
-export const useFlowSelector = () =>
-  useFlowStore(
-    useShallow((state) => ({
-      nodes: state.nodes,
-      edges: state.edges,
-
-      onNodesChange: state.onNodesChange,
-      onEdgesChange: state.onEdgesChange,
-      onConnect: state.onConnect,
-
-      setNodes: state.setNodes,
-      setEdges: state.setEdges,
-
-      addNodes: state.addNodes,
-      addEdges: state.addEdges,
-
-      removeNodes: state.removeNodes,
-      removeEdges: state.removeEdges,
-
-      selectedNodes: state.selectedNodes,
-      selectedEdges: state.selectedEdges,
-      setSelectedNodes: state.setSelectedNodes,
-      setSelectedEdges: state.setSelectedEdges,
-
-      nodeClipboard: state.nodeClipboard,
-      edgeClipboard: state.edgeClipboard,
-      setNodeClipboard: state.setNodeClipboard,
-      setEdgeClipboard: state.setEdgeClipboard,
-    }))
-  );
