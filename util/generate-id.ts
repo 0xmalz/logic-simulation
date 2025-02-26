@@ -9,8 +9,7 @@ import { useFlowStore } from "@/lib/stores/useFlowStore";
 export function generateUniqueId() {
   const { usedIds } = useFlowStore.getState();
 
-  const chars =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
   let id = "";
 
   // Generate a unique ID
