@@ -17,10 +17,10 @@ import { useFlowStore } from "@/lib/stores/useFlowStore";
 import { useCallback, useState } from "react";
 import LogicGateNode from "./nodes/LogicGateNode";
 import SignalNode from "./nodes/SignalNode";
-import { MoveNode } from "@/lib/action/MoveNodeAction";
+import { MoveNode } from "@/lib/actions/MoveNodeAction";
 import { useTimeMachineStore } from "@/lib/stores/useTimeMachineStore";
-import { Delete } from "@/lib/action/DeleteAction";
-import { AddEdgeAction } from "@/lib/action/CreateEdgeAction";
+import { Delete } from "@/lib/actions/DeleteAction";
+import { AddEdgeAction } from "@/lib/actions/CreateEdgeAction";
 
 /**
  * Flow component that renders a React Flow diagram with custom nodes and edges.

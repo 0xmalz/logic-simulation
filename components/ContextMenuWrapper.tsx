@@ -15,11 +15,11 @@ import useFlowMousePosition from "@/hooks/useFlowMousePosition";
 import { Node } from "@xyflow/react";
 import { generateUniqueId } from "@/util/generate-id";
 import { SignalVariant } from "./nodes/SignalNode";
-import { CreateNode } from "@/lib/action/CreateNodeAction";
-import { Cut } from "@/lib/action/CutAction";
-import { Paste } from "@/lib/action/PasteAction";
+import { CreateNode } from "@/lib/actions/CreateNodeAction";
+import { Cut } from "@/lib/actions/CutAction";
+import { Paste } from "@/lib/actions/PasteAction";
 import { useTimeMachineStore } from "@/lib/stores/useTimeMachineStore";
-import { Delete } from "@/lib/action/DeleteAction";
+import { Delete } from "@/lib/actions/DeleteAction";
 import {
   Undo,
   Redo,
