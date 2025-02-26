@@ -1,7 +1,7 @@
 import { Node, Edge, XYPosition } from "@xyflow/react";
 import { useFlowStore } from "../stores/useFlowStore";
 import { Action } from "../models/types/Action";
-import { GenerateId } from "@/util/generate-id";
+import { generateUniqueId } from "@/util/generate-id";
 import { Time } from "../models/enums/Time";
 
 /**
@@ -47,7 +47,7 @@ export class Paste implements Action {
 
     // Create new nodes with updated IDs and positions
     this.newNodes = nodeClipboard.map((node: Node) => {
-      const newNodeId = GenerateId();
+      const newNodeId = generateUniqueId();
       idMap[node.id] = newNodeId; // Map the old ID to the new ID
 
       return {
@@ -64,7 +64,8 @@ export class Paste implements Action {
     // Create new edges using the ID mapping
     this.newEdges = edgeClipboard.map((edge) => ({
       ...edge,
-      id: GenerateId(), // Generate a unique ID for the edge
+      // TODO: improve id generation
+      id: generateUniqueId(), // Generate a unique ID for the edge
       source: idMap[edge.source] || edge.source, // Map to new source ID
       target: idMap[edge.target] || edge.target, // Map to new target ID
     }));

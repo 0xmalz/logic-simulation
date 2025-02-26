@@ -27,6 +27,8 @@ export const initialNodes = [
  * Creates a Zustand store to manage the flow state including nodes, edges, and their interactions.
  */
 export type FlowState = {
+  usedIds: Set<string>;
+
   nodes: Node[];
   edges: Edge[];
 
@@ -60,6 +62,7 @@ export type FlowState = {
 export const useFlowStore = create<FlowState>((set, get) => ({
   nodes: initialNodes,
   edges: [],
+usedIds: new Set<string>(),
 
   setNodes: (nodes) => set({ nodes }),
   setEdges: (edges) => set({ edges }),

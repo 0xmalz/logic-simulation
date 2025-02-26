@@ -13,7 +13,7 @@ import {
 import { useFlowStore } from "@/lib/stores/useFlowStore";
 import useFlowMousePosition from "@/hooks/useFlowMousePosition";
 import { Node } from "@xyflow/react";
-import { GenerateId } from "@/util/generate-id";
+import { generateUniqueId } from "@/util/generate-id";
 import { SignalVariant } from "./nodes/SignalNode";
 import { CreateNode } from "@/lib/action/CreateNode";
 import { Cut } from "@/lib/action/Cut";
@@ -100,7 +100,7 @@ export default function ContextMenuWrapper({
   ): Node {
     const { x, y } = flowMousePosition;
     return {
-      id: GenerateId(),
+      id: generateUniqueId(),
       type: "logicGate",
       data: {
         label: label,
@@ -122,7 +122,7 @@ export default function ContextMenuWrapper({
     const { x, y } = flowMousePosition;
 
     const node: Node = {
-      id: GenerateId(),
+      id: generateUniqueId(),
       type: "signal",
       data: { label: "A", variant: variant },
       position: { x, y },
