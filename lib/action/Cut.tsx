@@ -49,10 +49,9 @@ export class Cut implements Action {
    * Provides details of the cut action, including the number of nodes and edges involved,
    * with a description based on the time context (e.g., past or future).
    *
-   * @param {Time} time - The time context (e.g., Time.Past or Time.Future) to influence the action name.
    * @returns {Object} An object containing the name and description of the cut action.
    */
-  details(time: Time): { name: string; description: string } {
+  details(): { name: string; description: string } {
     const nodeCount = this.selectedNodes.length;
     const edgeCount = this.selectedEdges.length;
 
