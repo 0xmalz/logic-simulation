@@ -33,6 +33,7 @@ export default function ContextMenuWrapper({
     removeEdges,
     selectedNodes,
     selectedEdges,
+    nodeClipboard,
     setNodeClipboard,
     setEdgeClipboard,
   } = useFlowStore.getState();
@@ -125,8 +126,10 @@ export default function ContextMenuWrapper({
   }
 
   function handlePaste() {
-    const paste = new Paste(flowMousePosition);
-    register(paste);
+    if (nodeClipboard.length > 0) {
+      const paste = new Paste(flowMousePosition);
+      register(paste);
+    }
   }
 
   function handleDelete() {
