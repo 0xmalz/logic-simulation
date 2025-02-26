@@ -16,9 +16,9 @@ import { useFlowStore } from "@/lib/stores/useFlowStore";
 import { useState } from "react";
 import LogicGateNode from "./nodes/LogicGateNode";
 import SignalNode from "./nodes/SignalNode";
-import { MoveNode } from "@/lib/action/MoveNode";
+import { MoveNode } from "@/lib/action/MoveNodeAction";
 import { useTimeMachineStore } from "@/lib/stores/useTimeMachineStore";
-import { Delete } from "@/lib/action/Delete";
+import { Delete } from "@/lib/action/DeleteAction";
 import { AddEdgeAction } from "@/lib/action/CreateEdgeAction";
 
 /**
