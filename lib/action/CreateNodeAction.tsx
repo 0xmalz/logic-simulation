@@ -1,5 +1,5 @@
 import { Node } from "@xyflow/react";
-import { Action } from "../models/types/Action";
+import { Action } from "../models/interfaces/Action";
 import { useFlowStore } from "../stores/useFlowStore";
 import { Time } from "../models/enums/Time";
 

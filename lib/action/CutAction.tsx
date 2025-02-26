@@ -1,6 +1,6 @@
 import { Node, Edge } from "@xyflow/react";
 import { useFlowStore } from "../stores/useFlowStore";
-import { Action } from "../models/types/Action";
+import { Action } from "../models/interfaces/Action";
 import { Time } from "../models/enums/Time";
 
 /**

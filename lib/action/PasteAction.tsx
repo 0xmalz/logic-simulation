@@ -1,6 +1,6 @@
 import { Node, Edge, XYPosition } from "@xyflow/react";
 import { useFlowStore } from "../stores/useFlowStore";
-import { Action } from "../models/types/Action";
+import { Action } from "../models/interfaces/Action";
 import { generateUniqueId } from "@/util/generate-id";
 import { Time } from "../models/enums/Time";
 

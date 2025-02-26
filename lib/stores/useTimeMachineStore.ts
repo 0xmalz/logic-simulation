@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Action } from "../models/types/Action";
+import { Action } from "../models/interfaces/Action";
 
 /*
  * Defines the state and actions for managing history and future actions in a time machine.

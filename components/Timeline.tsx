@@ -10,7 +10,7 @@ import { twJoin } from "tailwind-merge";
 import { Button } from "./ui/Button";
 import { Redo, Undo } from "lucide-react";
 import { useTimeMachineStore } from "@/lib/stores/useTimeMachineStore";
-import { Action } from "@/lib/models/types/Action";
+import { Action } from "@/lib/models/interfaces/Action";
 import { Separator } from "./ui/Separator";
 import { Label } from "./ui/Label";
 import { Time } from "@/lib/models/enums/Time";

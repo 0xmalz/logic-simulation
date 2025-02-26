@@ -1,6 +1,6 @@
 // Actions/MoveNodeAction.ts
 import { Time } from "../models/enums/Time";
-import { Action } from "../models/types/Action";
+import { Action } from "../models/interfaces/Action";
 import { Node, XYPosition } from "@xyflow/react";
 
 /**

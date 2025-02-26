@@ -1,6 +1,6 @@
 import { Edge } from "@xyflow/react";
 import { Time } from "../models/enums/Time";
-import { Action } from "../models/types/Action";
+import { Action } from "../models/interfaces/Action";
 import { useFlowStore } from "../stores/useFlowStore";
 
 export class AddEdgeAction implements Action {
