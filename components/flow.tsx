@@ -18,6 +18,7 @@ import LogicGateNode from "./nodes/LogicGateNode";
 import SignalNode from "./nodes/SignalNode";
 import { MoveNode } from "@/lib/action/MoveNode";
 import { useTimeMachineStore } from "@/lib/stores/useTimeMachineStore";
+import { Delete } from "@/lib/action/Delete";
 
 /**
  * Flow component that renders a React Flow diagram with customizable nodes and edges.
@@ -107,13 +108,17 @@ export default function Flow() {
     setNodeDragStartPositions(new Map());
   };
 
+  function handleNodesDelete(nodes: Node[]): void {
+    register(new Delete(nodes));
+  }
+
   return (
     <ContextMenuWrapper>
       <ReactFlow
         colorMode={"dark"} // Fix dynamic theming
         nodes={nodes}
         edges={edges}
-        // onBeforeDelete={onBeforeDelete}
+        onNodesDelete={handleNodesDelete}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         selectionKeyCode={null}

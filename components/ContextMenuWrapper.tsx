@@ -20,6 +20,7 @@ import { CreateNode } from "@/lib/action/CreateNode";
 import { Cut } from "@/lib/action/Cut";
 import { Paste } from "@/lib/action/Paste";
 import { useTimeMachineStore } from "@/lib/stores/useTimeMachineStore";
+import { Delete } from "@/lib/action/Delete";
 
 export default function ContextMenuWrapper({
   children,
@@ -133,8 +134,7 @@ export default function ContextMenuWrapper({
   }
 
   function handleDelete() {
-    removeNodes(selectedNodes);
-    removeEdges(selectedEdges);
+    register(new Delete());
   }
 
   return (
