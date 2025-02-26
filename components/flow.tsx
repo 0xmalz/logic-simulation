@@ -4,6 +4,7 @@ import {
   Background,
   Connection,
   Controls,
+  Edge,
   Node,
   ReactFlow,
   useOnSelectionChange,
@@ -13,7 +14,7 @@ import {
 import { useKeyPress } from "@/hooks/useKeyPress";
 import ContextMenuWrapper from "./ContextMenuWrapper";
 import { useFlowStore } from "@/lib/stores/useFlowStore";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import LogicGateNode from "./nodes/LogicGateNode";
 import SignalNode from "./nodes/SignalNode";
 import { MoveNode } from "@/lib/action/MoveNodeAction";
@@ -58,12 +59,18 @@ export default function Flow() {
     ["Space"] // Spacebar key
   );
 
-  // Update selected nodes and edges on selection change
+  /**
+   * Handles selection changes in the graph and updates the selected nodes and edges state.
+   * This callback is memoized using `useCallback` to prevent unnecessary re-renders.
+   */
   useOnSelectionChange({
-    onChange: ({ nodes, edges }) => {
-      setSelectedNodes(nodes);
-      setSelectedEdges(edges);
-    },
+    onChange: useCallback(
+      ({ nodes, edges }: { nodes: Node[]; edges: Edge[] }) => {
+        setSelectedNodes(nodes);
+        setSelectedEdges(edges);
+      },
+      [setSelectedNodes, setSelectedEdges]
+    ),
   });
 
   /**
