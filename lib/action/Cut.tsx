@@ -15,10 +15,10 @@ export class Cut implements Action {
   }
 
   execute(): void {
-    console.log("Execute Cut");
     const { setNodeClipboard, setEdgeClipboard, removeNodes, removeEdges } =
       useFlowStore.getState();
 
+    console.log(this.selectedNodes);
     setNodeClipboard(this.selectedNodes);
     setEdgeClipboard(this.selectedEdges);
 

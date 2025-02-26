@@ -16,7 +16,6 @@ export class Paste implements Action {
   }
 
   execute(): void {
-    console.log("Execute");
     const { nodeClipboard, edgeClipboard, addNodes, addEdges } =
       useFlowStore.getState();
 
