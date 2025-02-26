@@ -20,7 +20,14 @@ import { Cut } from "@/lib/action/Cut";
 import { Paste } from "@/lib/action/Paste";
 import { useTimeMachineStore } from "@/lib/stores/useTimeMachineStore";
 import { Delete } from "@/lib/action/Delete";
-import { Trash2 } from "lucide-react";
+import {
+  Undo,
+  Redo,
+  Trash2,
+  ClipboardPaste,
+  Scissors,
+  ClipboardCopy,
+} from "lucide-react";
 
 /**
  * A wrapper component that provides a context menu for interacting with nodes in the flow diagram.
@@ -209,16 +216,19 @@ export default function ContextMenuWrapper({
 
         {/* Regular menu items */}
         <ContextMenuItem onClick={() => handleCut()}>
+          <Scissors className="mr-2 h-4 w-4" />
           Cut
           <ContextMenuShortcut>⌘X</ContextMenuShortcut>
         </ContextMenuItem>
 
         <ContextMenuItem onClick={() => handleCopy()}>
+          <ClipboardCopy className="mr-2 h-4 w-4" />
           Copy
           <ContextMenuShortcut>⌘C</ContextMenuShortcut>
         </ContextMenuItem>
 
         <ContextMenuItem onClick={() => handlePaste()}>
+          <ClipboardPaste className="mr-2 h-4 w-4" />
           Paste
           <ContextMenuShortcut>⌘V</ContextMenuShortcut>
         </ContextMenuItem>
@@ -226,11 +236,13 @@ export default function ContextMenuWrapper({
         <ContextMenuSeparator />
 
         <ContextMenuItem onClick={() => undo()}>
+          <Undo className="mr-2 h-4 w-4" />
           Undo
           <ContextMenuShortcut>⌘Z</ContextMenuShortcut>
         </ContextMenuItem>
 
         <ContextMenuItem onClick={() => redo()}>
+          <Redo className="mr-2 h-4 w-4" />
           Redo
           <ContextMenuShortcut>⇧⌘Z</ContextMenuShortcut>
         </ContextMenuItem>
@@ -243,7 +255,7 @@ export default function ContextMenuWrapper({
           onClick={() => handleDelete()}
           className="text-red-500"
         >
-          <Trash2 className="mr-2 h-4 w-4" /> {/* Icon */}
+          <Trash2 className="mr-2 h-4 w-4" />
           Delete
           <ContextMenuShortcut>⌘D</ContextMenuShortcut>
         </ContextMenuItem>
