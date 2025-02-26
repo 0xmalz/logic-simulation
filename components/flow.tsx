@@ -83,6 +83,13 @@ export default function Flow() {
     );
   };
 
+  const onNodeContextMenu = useCallback(
+    (_: any, node: Node) => {
+      setSelectedNodes([node]);
+    },
+    [setSelectedNodes]
+  );
+
   const handleNodeDragStop = (nodes: Node[]) => {
     const nodeIds = Array.from(nodeDragStartPositions.keys());
     const oldPositions = Array.from(nodeDragStartPositions.values());
@@ -111,6 +118,7 @@ export default function Flow() {
         onEdgesChange={onEdgesChange}
         selectionKeyCode={null}
         selectionOnDrag
+        onNodeContextMenu={onNodeContextMenu}
         panOnDrag={isSpacePressed}
         onConnect={onConnect}
         nodeTypes={nodeTypes} // Pass custom node types
