@@ -5,8 +5,6 @@ import {
   Edge,
   OnNodesChange,
   OnEdgesChange,
-  OnConnect,
-  addEdge,
   applyNodeChanges,
   applyEdgeChanges,
 } from "@xyflow/react";
@@ -43,7 +41,6 @@ export type FlowState = {
 
   onNodesChange: OnNodesChange<Node>;
   onEdgesChange: OnEdgesChange;
-  onConnect: OnConnect;
 
   selectedNodes: Node[];
   selectedEdges: Edge[];
@@ -62,7 +59,7 @@ export type FlowState = {
 export const useFlowStore = create<FlowState>((set, get) => ({
   nodes: initialNodes,
   edges: [],
-usedIds: new Set<string>(),
+  usedIds: new Set<string>(),
 
   setNodes: (nodes) => set({ nodes }),
   setEdges: (edges) => set({ edges }),
@@ -98,9 +95,6 @@ usedIds: new Set<string>(),
   },
   onEdgesChange: (changes) => {
     set({ edges: applyEdgeChanges(changes, get().edges) });
-  },
-  onConnect: (connection) => {
-    set({ edges: addEdge(connection, get().edges) });
   },
 
   selectedNodes: [],

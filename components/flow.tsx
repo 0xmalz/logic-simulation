@@ -2,6 +2,7 @@
 
 import {
   Background,
+  Connection,
   Controls,
   Node,
   ReactFlow,
@@ -18,6 +19,7 @@ import SignalNode from "./nodes/SignalNode";
 import { MoveNode } from "@/lib/action/MoveNode";
 import { useTimeMachineStore } from "@/lib/stores/useTimeMachineStore";
 import { Delete } from "@/lib/action/Delete";
+import { AddEdgeAction } from "@/lib/action/CreateEdgeAction";
 
 /**
  * Flow component that renders a React Flow diagram with custom nodes and edges.
@@ -36,7 +38,6 @@ export default function Flow() {
     edges,
     onNodesChange,
     onEdgesChange,
-    onConnect,
     setSelectedNodes,
     setSelectedEdges,
   } = useFlowStore.getState();
@@ -114,6 +115,36 @@ export default function Flow() {
    */
   function handleNodesDelete(nodes: Node[]): void {
     register(new Delete(nodes));
+  }
+
+  /**
+   * Handles the creation of a new edge when a connection is made.
+   * Registers the new edge with the given source and target details.
+   *
+   * @param {Connection} connection - The connection object containing source and target information.
+   */
+  function onConnect(connection: Connection) {
+    const sourceIndex = connection.sourceHandle?.split("-")[1];
+    const targetIndex = connection.targetHandle?.split("-")[1];
+
+    const newEdgeId: string = `${connection.source}:${sourceIndex}-${connection.target}:${targetIndex}`;
+
+    console.log(newEdgeId);
+
+    const edgeExists = edges.some((edge) => edge.id === newEdgeId);
+    console.log(edgeExists);
+
+    if (!edgeExists) {
+      const newEdge = {
+        id: newEdgeId,
+        source: connection.source,
+        target: connection.target,
+        sourceHandle: connection.sourceHandle,
+        targetHandle: connection.targetHandle,
+      };
+
+      register(new AddEdgeAction(newEdge));
+    }
   }
 
   return (
