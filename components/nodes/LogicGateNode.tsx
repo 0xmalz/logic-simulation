@@ -4,6 +4,12 @@ import { Label } from "@/components/ui/Label";
 import { Card } from "../ui/Card";
 import { cva, VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/Tooltip";
 
 /**
  * Defines the styling variants for a logic gate node.
@@ -84,7 +90,7 @@ const generateHandles = (
  * @returns {JSX.Element} - The rendered LogicGateNode component.
  */
 export default function LogicGateNode(props: NodeProps<LogicGateProps>) {
-  const { data } = props;
+  const { data, id } = props;
   const { label, input, output, variants } = data;
 
   // Calculate the maximum number of handles to determine the dimensions height
@@ -102,20 +108,32 @@ export default function LogicGateNode(props: NodeProps<LogicGateProps>) {
   );
 
   return (
-    <Card
-      style={{
-        width: dimensions.width,
-        height: dimensions.height,
-      }}
-      className={cn(logicGateNodeVariants(variants))}
-    >
-      <Label className="text-lg font-semibold text-white">{label}</Label>
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger>
+          <Card
+            style={{
+              width: dimensions.width,
+              height: dimensions.height,
+            }}
+            className={cn(logicGateNodeVariants(variants))}
+          >
+            <Label className="text-lg font-semibold text-white">{label}</Label>
 
-      {/* Target Handles (Left Side) */}
-      {generateHandles(input, "target", Position.Left, dimensions.height)}
+            {/* Target Handles (Left Side) */}
+            {generateHandles(input, "target", Position.Left, dimensions.height)}
 
-      {/* Source Handles (Right Side) */}
-      {generateHandles(output, "source", Position.Right, dimensions.height)}
-    </Card>
+            {/* Source Handles (Right Side) */}
+            {generateHandles(
+              output,
+              "source",
+              Position.Right,
+              dimensions.height
+            )}
+          </Card>
+        </TooltipTrigger>
+        <TooltipContent>{id}</TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 }
