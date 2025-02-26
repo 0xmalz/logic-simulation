@@ -39,8 +39,6 @@ export default function StatusOverlay({ className }: StatusOverlayProps) {
         className
       )}
     >
-      <Label className="font-semibold text-sm">Status</Label>
-
       <Label>
         Mouse Position: ({mousePosition.x}, {mousePosition.y})
       </Label>
