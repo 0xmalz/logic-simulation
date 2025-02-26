@@ -3,6 +3,9 @@ import { Time } from "../models/enums/Time";
 import { Action } from "../models/types/Action";
 import { Node, XYPosition } from "@xyflow/react";
 
+/**
+ * Action that handles moving nodes within the flow.
+ */
 export class MoveNode implements Action {
   private nodeIds: string[];
   private oldPosition: XYPosition[];
@@ -15,6 +18,14 @@ export class MoveNode implements Action {
     }
   ) => void;
 
+  /**
+   * Creates an instance of the MoveNode action with the necessary parameters to track node movements.
+   *
+   * @param {string[]} nodeIds - The ids of the nodes being moved.
+   * @param {XYPosition[]} oldPosition - The old positions of the nodes.
+   * @param {XYPosition[]} newPosition - The new positions of the nodes.
+   * @param {Function} updateNode - The function to update the nodes in the flow.
+   */
   constructor(
     nodeIds: string[],
     oldPosition: XYPosition[],
@@ -33,6 +44,11 @@ export class MoveNode implements Action {
     this.updateNode = updateNode;
   }
 
+  /**
+   * Updates the position of the nodes.
+   *
+   * @param {XYPosition[]} position - The positions to set for the nodes.
+   */
   updatePosition(position: XYPosition[]): void {
     this.nodeIds.forEach((id, index) => {
       this.updateNode(id, (node: Node) => {
@@ -45,14 +61,27 @@ export class MoveNode implements Action {
     });
   }
 
+  /**
+   * Executes the action of moving the nodes to their new positions.
+   */
   execute(): void {
     this.updatePosition(this.newPosition);
   }
 
+  /**
+   * Undoes the move action by restoring the nodes to their original positions.
+   */
   undo(): void {
     this.updatePosition(this.oldPosition);
   }
 
+  /**
+   * Provides details about the move action, including the number of nodes moved
+   * or the specific positions for a single node, based on the time context.
+   *
+   * @param {Time} time - The time context (e.g., Time.Past or Time.Future) to influence the action name.
+   * @returns {Object} An object containing the name and description of the move action.
+   */
   details(time: Time): { name: string; description: string } {
     const name: string = time === Time.Past ? "Moved" : "Move";
     const nodeCount = this.nodeIds.length;

@@ -11,6 +11,9 @@ import {
   applyEdgeChanges,
 } from "@xyflow/react";
 
+/**
+ * Initial nodes setup for the flow store.
+ */
 export const initialNodes = [
   {
     id: "1",
@@ -20,6 +23,9 @@ export const initialNodes = [
   },
 ] as Node[];
 
+/**
+ * Creates a Zustand store to manage the flow state including nodes, edges, and their interactions.
+ */
 export type FlowState = {
   nodes: Node[];
   edges: Edge[];
@@ -48,6 +54,9 @@ export type FlowState = {
   setEdgeClipboard: (edges: Edge[]) => void;
 };
 
+/**
+ * Creates a Zustand store to manage the flow state including nodes, edges, and their interactions.
+ */
 export const useFlowStore = create<FlowState>((set, get) => ({
   nodes: initialNodes,
   edges: [],

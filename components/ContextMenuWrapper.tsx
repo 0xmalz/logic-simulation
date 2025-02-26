@@ -15,13 +15,22 @@ import useFlowMousePosition from "@/hooks/useFlowMousePosition";
 import { Node } from "@xyflow/react";
 import { GenerateId } from "@/util/generate-id";
 import { SignalVariant } from "./nodes/SignalNode";
-import { Trash2 } from "lucide-react";
 import { CreateNode } from "@/lib/action/CreateNode";
 import { Cut } from "@/lib/action/Cut";
 import { Paste } from "@/lib/action/Paste";
 import { useTimeMachineStore } from "@/lib/stores/useTimeMachineStore";
 import { Delete } from "@/lib/action/Delete";
+import { Trash2 } from "lucide-react";
 
+/**
+ * A wrapper component that provides a context menu for interacting with nodes in the flow diagram.
+ * The menu offers options to create new nodes (logic gates and signals), perform copy-paste operations,
+ * and undo/redo actions, as well as delete selected nodes.
+ *
+ * @param {ReactNode} children - The child elements that will trigger the context menu when right-clicked.
+ *
+ * @returns A context menu that provides node management actions and additional shortcuts.
+ */
 export default function ContextMenuWrapper({
   children,
 }: {
@@ -30,8 +39,6 @@ export default function ContextMenuWrapper({
   const { register, redo, undo } = useTimeMachineStore();
 
   const {
-    removeNodes,
-    removeEdges,
     selectedNodes,
     selectedEdges,
     nodeClipboard,
@@ -41,100 +48,121 @@ export default function ContextMenuWrapper({
 
   const flowMousePosition = useFlowMousePosition();
 
+  /**
+   * Handle creation of a new logic gate node (AND, OR, NOT) at the current mouse position.
+   *
+   * @param {string} type - The type of logic gate ("AND", "NOT", "OR").
+   */
   function handleNewGate(type: string) {
     let node: Node | null = null;
 
-    const { x, y } = flowMousePosition;
-
-    if (type === "AND") {
-      node = {
-        id: GenerateId(),
-        type: "logicGate",
-        data: {
-          label: "AND",
-          input: 2,
-          output: 1,
-          variants: {
-            color: "blue",
-          },
-        },
-        position: { x: x, y: y },
-        origin: [0.5, 0.5],
-      };
-    } else if (type === "NOT") {
-      node = {
-        id: GenerateId(),
-        type: "logicGate",
-        data: {
-          label: "NOT",
-          input: 1,
-          output: 1,
-          variants: {
-            color: "red",
-          },
-        },
-        position: { x: x, y: y },
-        origin: [0.5, 0.5],
-      };
-    } else if (type === "OR") {
-      node = {
-        id: GenerateId(),
-        type: "logicGate",
-        data: {
-          label: "OR",
-          input: 2,
-          output: 1,
-          variants: {
-            color: "green",
-          },
-        },
-        position: { x: x, y: y },
-        origin: [0.5, 0.5],
-      };
+    switch (type) {
+      case "AND":
+        node = createLogicGateNode("AND", 2, 1, "blue");
+        break;
+      case "NOT":
+        node = createLogicGateNode("NOT", 1, 1, "red");
+        break;
+      case "OR":
+        node = createLogicGateNode("OR", 2, 1, "green");
+        break;
+      default:
+        return;
     }
 
     if (node) {
-      const createNode = new CreateNode(node);
-      register(createNode);
+      const createNodeAction = new CreateNode(node);
+      register(createNodeAction);
     }
   }
 
+  /**
+   * Helper function to create a logic gate node with specific properties.
+   *
+   * @param {string} label - The label of the logic gate.
+   * @param {number} input - The number of inputs for the logic gate.
+   * @param {number} output - The number of outputs for the logic gate.
+   * @param {string} color - The color variant of the gate.
+   * @returns {Node} The created logic gate node.
+   */
+  function createLogicGateNode(
+    label: string,
+    input: number,
+    output: number,
+    color: string
+  ): Node {
+    const { x, y } = flowMousePosition;
+    return {
+      id: GenerateId(),
+      type: "logicGate",
+      data: {
+        label: label,
+        input: input,
+        output: output,
+        variants: { color: color },
+      },
+      position: { x, y },
+      origin: [0.5, 0.5],
+    };
+  }
+
+  /**
+   * Handle the creation of a new signal node at the current mouse position.
+   *
+   * @param {SignalVariant} variant - The variant of the signal node (e.g., A, B).
+   */
   function handleNewSignal(variant: SignalVariant) {
     const { x, y } = flowMousePosition;
 
-    let node: Node = {
+    const node: Node = {
       id: GenerateId(),
       type: "signal",
-      data: {
-        label: "A",
-        variant: variant,
-      },
-      position: { x: x, y: y },
+      data: { label: "A", variant: variant },
+      position: { x, y },
       origin: [0.5, 0.5],
     };
 
-    const createNode = new CreateNode(node);
-    register(createNode);
+    const createNodeAction = new CreateNode(node);
+    register(createNodeAction);
   }
 
+  /**
+   * Handle cutting of the selected nodes and edges.
+   * Registers the Cut action if nodes are selected.
+   */
   function handleCut() {
-    register(new Cut());
+    if (selectedNodes.length > 0) {
+      register(new Cut());
+    }
   }
 
+  /**
+   * Handle copying of the selected nodes and edges to the clipboard.
+   */
   function handleCopy() {
     setNodeClipboard(selectedNodes);
     setEdgeClipboard(selectedEdges);
   }
 
+  /**
+   * Handle pasting of nodes and edges from the clipboard to the current mouse position.
+   * Registers the Paste action if nodes are in the clipboard.
+   */
   function handlePaste() {
     if (nodeClipboard.length > 0) {
-      const paste = new Paste(flowMousePosition);
-      register(paste);
+      const pasteAction = new Paste(flowMousePosition);
+      register(pasteAction);
     }
   }
 
+  /**
+   * Handle deletion of the selected nodes and edges.
+   * Registers the Delete action if nodes are selected.
+   */
   function handleDelete() {
-    register(new Delete());
+    if (selectedNodes.length > 0) {
+      register(new Delete());
+    }
   }
 
   return (

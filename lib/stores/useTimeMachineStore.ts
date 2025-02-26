@@ -1,6 +1,9 @@
 import { create } from "zustand";
 import { Action } from "../models/types/Action";
 
+/*
+ * Defines the state and actions for managing history and future actions in a time machine.
+ */
 interface TimeMachineState {
   history: Action[];
   future: Action[];
@@ -12,6 +15,9 @@ interface TimeMachineState {
   canRedo: () => boolean;
 }
 
+/*
+ * Creates a Zustand store for managing time machine functionality (undo/redo history).
+ */
 export const useTimeMachineStore = create<TimeMachineState>((set, get) => ({
   history: [],
   future: [],

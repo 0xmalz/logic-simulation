@@ -16,7 +16,19 @@ import { Label } from "./ui/Label";
 import { Time } from "@/lib/models/enums/Time";
 import { useMemo, useRef, useState, useEffect } from "react";
 
-export default function Timeline({ className }: { className?: string }) {
+export type TimelineProps = {
+  className?: string;
+};
+
+/**
+ * Timeline component that displays the history and future actions in a time machine interface.
+ * Allows users to undo and redo actions, with a visual timeline of past and future actions.
+ *
+ * @param className - Optional custom class name to style the component.
+ *
+ * @returns A timeline that includes tables for past and future actions with undo and redo buttons, scroll handling, and labels indicating the status of actions.
+ */
+export default function Timeline({ className }: TimelineProps) {
   const { history, future, undo, redo } = useTimeMachineStore();
 
   const [isAtBottom, setIsAtBottom] = useState(false);

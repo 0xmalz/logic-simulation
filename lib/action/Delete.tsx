@@ -3,10 +3,20 @@ import { Time } from "../models/enums/Time";
 import { Action } from "../models/types/Action";
 import { useFlowStore } from "../stores/useFlowStore";
 
+/**
+ * Action that deletes selected nodes and edges from the flow.
+ * It supports undoing the deletion by restoring the nodes and edges to the flow.
+ */
 export class Delete implements Action {
   private nodes: Node[];
   private edges: Edge[];
 
+  /**
+   * Creates an instance of the Delete action. It either takes a list of nodes as input or fetches the
+   * currently selected nodes and edges from the flow store.
+   *
+   * @param {Node[]} [nodes] - An optional array of nodes to be deleted.
+   */
   constructor(nodes?: Node[]) {
     if (nodes) {
       // Case 1: Nodes are provided directly
@@ -20,6 +30,9 @@ export class Delete implements Action {
     }
   }
 
+  /**
+   * Executes the action of deleting the specified nodes and edges by removing them from the flow state.
+   */
   execute(): void {
     const { removeNodes, removeEdges } = useFlowStore.getState();
 
@@ -27,6 +40,9 @@ export class Delete implements Action {
     removeEdges(this.edges);
   }
 
+  /**
+   * Undoes the delete action by adding the previously deleted nodes and edges back to the flow state.
+   */
   undo(): void {
     const { addNodes, addEdges } = useFlowStore.getState();
 
@@ -34,6 +50,13 @@ export class Delete implements Action {
     addEdges(this.edges);
   }
 
+  /**
+   * Provides details of the delete action, including the number of nodes and edges involved,
+   * with a description based on the time context (e.g., past or future).
+   *
+   * @param {Time} time - The time context (e.g., Time.Past or Time.Future) to influence the action name.
+   * @returns {Object} An object containing the name and description of the delete action.
+   */
   details(time: Time): { name: string; description: string } {
     const nodeCount = this.nodes.length;
     const edgeCount = this.edges.length;

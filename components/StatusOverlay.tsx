@@ -1,22 +1,26 @@
 "use client";
 
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { Label } from "@radix-ui/react-label";
 
 import useFlowMousePosition from "@/hooks/useFlowMousePosition";
 import useMousePosition from "@/hooks/useMousePosition";
 import { useKeyPress } from "@/hooks/useKeyPress";
-import { twJoin, twMerge } from "tailwind-merge";
-import { ThemeProvider } from "./ThemeProvier";
-import { useTheme } from "next-themes";
+import { twJoin } from "tailwind-merge";
 
 export type StatusOverlayProps = {
   className?: string;
 };
 
+/**
+ * StatusOverlay component that displays the current mouse position, mouse flow position,
+ * and whether keys are pressed or not.
+ *
+ * @param className - Optional class name to customize the styling of the overlay.
+ *
+ * @returns A overlay displaying the mouse positions and keyboard input status.
+ */
 export default function StatusOverlay({ className }: StatusOverlayProps) {
-  const { theme } = useTheme();
-
   const mousePosition = useMousePosition();
   const flowMousePosition = useFlowMousePosition();
 
@@ -35,6 +39,8 @@ export default function StatusOverlay({ className }: StatusOverlayProps) {
         className
       )}
     >
+      <Label className="font-semibold text-sm">Status</Label>
+
       <Label>
         Mouse Position: ({mousePosition.x}, {mousePosition.y})
       </Label>

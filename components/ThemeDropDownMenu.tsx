@@ -17,6 +17,14 @@ export type ThemeDropDownMenuProps = {
   className?: string;
 };
 
+/**
+ * A dropdown menu component that allows users to toggle between different themes (light, dark, and system theme).
+ * The component uses the `next-themes` library to manage the theme state.
+ *
+ * @param className - Optional custom class name for styling the dropdown menu.
+ *
+ * @returns A dropdown menu with theme options (Light, Dark, System) and respective icons for Sun (light) and Moon (dark).
+ */
 export function ThemeDropDownMenu({ className }: ThemeDropDownMenuProps) {
   const { setTheme } = useTheme();
 
