@@ -1,3 +1,5 @@
+![My Project Banner](https://github.com/0xmalz/logic-simulation/blob/main/docs/banner.png)
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
